@@ -1,0 +1,6 @@
+plugins {
+    id 'java'
+}
+
+group = project.core_group as Object
+version = project.dhwu1a_version as Object

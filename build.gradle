@@ -1,0 +1,44 @@
+apply plugin: 'maven-publish'
+
+group = project.dhwu1a_group as Object
+version = project.dhwu1a_version as Object
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        implementation group: 'com.google.code.gson', name: 'gson', version: "${project.gson_version}"
+        implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: "${project.java_websocket_version}"
+        implementation group: 'com.google.guava', name: 'guava', version: "${project.guava_version}"
+        implementation group: 'ch.qos.logback', name: 'logback-core', version: "${project.logback_version}"
+        implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${project.logback_version}"
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: "${project.slf4j_version}"
+
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    javadoc{
+        options {
+            encoding 'UTF-8'
+            charSet 'UTF-8'
+            author true
+            version true
+            title "Dhwuia"
+        }
+    }
+}
+
