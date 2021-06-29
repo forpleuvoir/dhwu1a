@@ -1,2 +1,4 @@
 # 项目排除路径
 /.gradle/
+/core/src/test/
+/core/build/
