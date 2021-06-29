@@ -1,4 +1,4 @@
-package forpleuvoir.dhwu1a.core.user;
+package forpleuvoir.dhwu1a.core.user.bot;
 
 import com.google.gson.JsonObject;
 
@@ -9,7 +9,7 @@ import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
  *
  * @author forpleuvoir
  * <p>#project_name dhwu1a
- * <p>#package forpleuvoir.dhwu1a.core.user
+ * <p>#package forpleuvoir.dhwu1a.core.user.bot
  * <p>#class_name BotProfile
  * <p>#create_time 2021/6/28 22:32
  */

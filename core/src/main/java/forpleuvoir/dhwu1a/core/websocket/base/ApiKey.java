@@ -12,6 +12,7 @@ public class ApiKey {
     public static final String VERIFY_KEY = "verifyKey";
     public static final String CODE = "code";
     public static final String CONTENT = "content";
+    public static final String FRIEND = "friend";
     public static final String COMMAND = "command";
     public static final String SUB_COMMAND = "subCommand";
     public static final String SYNC_ID = "syncId";

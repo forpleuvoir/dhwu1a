@@ -1,6 +1,7 @@
 package forpleuvoir.dhwu1a.core.websocket.base;
 
-import forpleuvoir.dhwu1a.core.user.Bot;
+import forpleuvoir.dhwu1a.core.user.bot.Bot;
+import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.net.URISyntaxException;
  * <p>#create_time 2021/6/28 20:48
  */
 public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
-    private transient static final Logger log = LoggerFactory.getLogger(Dhwu1aWebSocketClient.class);
+    private transient static final Dhwu1aLog log = new Dhwu1aLog(Dhwu1aWebSocketClient.class);
     protected final Bot bot;
     protected final String name;
 

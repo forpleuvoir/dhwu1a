@@ -1,6 +1,7 @@
 package forpleuvoir.dhwu1a.core.websocket;
 
-import forpleuvoir.dhwu1a.core.user.Bot;
+import forpleuvoir.dhwu1a.core.user.bot.Bot;
+import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.util.URLUtils;
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient;
 import forpleuvoir.dhwu1a.core.websocket.base.ISendObject;
@@ -36,6 +37,9 @@ public class MessageWSC extends Dhwu1aWebSocketClient {
 
     @Override
     public void onMessage(String message) {
+        if (JsonUtil.hasKey(message, SYNC_ID)){
 
+
+        }
     }
 }

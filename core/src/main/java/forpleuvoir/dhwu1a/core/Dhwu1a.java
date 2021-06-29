@@ -1,7 +1,8 @@
 package forpleuvoir.dhwu1a.core;
 
 import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
-import forpleuvoir.dhwu1a.core.user.Bot;
+import forpleuvoir.dhwu1a.core.config.LogConfig;
+import forpleuvoir.dhwu1a.core.user.bot.Bot;
 
 import java.net.URISyntaxException;
 
@@ -16,11 +17,13 @@ import java.net.URISyntaxException;
  */
 public abstract class Dhwu1a {
     private final Dhwu1aConfig config;
+    public static LogConfig LOG_CONFIG = new LogConfig();
     private Bot bot;
 
     public Dhwu1a(Dhwu1aConfig config) {
         Thread.currentThread().setName("dhwu1a");
         this.config = config;
+        LOG_CONFIG = config.logConfig;
     }
 
     public void start() throws URISyntaxException {

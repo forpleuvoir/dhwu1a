@@ -31,6 +31,21 @@ public class JsonUtil {
     }
 
     /**
+     * 检查json{@link String}是否包含 key
+     * @param jsonString json{@link String}
+     * @param key key
+     * @return {@link Boolean}
+     */
+    public static boolean hasKey(String jsonString, String key) {
+        try {
+            JsonObject jsonObject = strToJsonObject(jsonString);
+            return jsonObject.has(key);
+        } catch (Exception ignore) {
+            return false;
+        }
+    }
+
+    /**
      * 将json字符串转换成{@link JsonObject}
      *
      * @param json 需要转换的{@link String}对象
@@ -76,10 +91,11 @@ public class JsonUtil {
 
     /**
      * 将{@link Collection}转换成{@link JsonArray}
+     *
      * @param collection 需要转换的{@link Collection}
      * @return {@link JsonArray}
      */
-    public static JsonArray toJsonArray(Collection<?> collection){
+    public static JsonArray toJsonArray(Collection<?> collection) {
         return gson.toJsonTree(collection).getAsJsonArray();
     }
 
