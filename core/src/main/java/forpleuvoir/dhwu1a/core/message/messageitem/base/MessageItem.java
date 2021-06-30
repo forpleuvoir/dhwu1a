@@ -1,4 +1,4 @@
-package forpleuvoir.dhwu1a.core.message.messageitem;
+package forpleuvoir.dhwu1a.core.message.messageitem.base;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
@@ -12,7 +12,7 @@ import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
 /**
  * @author forpleuvoir
  * <p>#project_name dhwu1a
- * <p>#package forpleuvoir.dhwu1a.core.message.messageitem
+ * <p>#package forpleuvoir.dhwu1a.core.message.messageitem.base
  * <p>#class_name MessageItem
  * <p>#create_time 2021/6/29 23:02
  */

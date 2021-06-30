@@ -1,6 +1,6 @@
 package forpleuvoir.dhwu1a.core.message.base;
 
-import forpleuvoir.dhwu1a.core.message.messageitem.MessageItem;
+import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.user.User;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 

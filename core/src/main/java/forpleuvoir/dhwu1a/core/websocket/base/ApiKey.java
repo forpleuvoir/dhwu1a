@@ -13,6 +13,7 @@ public class ApiKey {
     public static final String CODE = "code";
     public static final String CONTENT = "content";
     public static final String FRIEND = "friend";
+    public static final String VALUE = "value";
     public static final String COMMAND = "command";
     public static final String SUB_COMMAND = "subCommand";
     public static final String SYNC_ID = "syncId";
@@ -45,6 +46,7 @@ public class ApiKey {
     public static final String FACE_ID = "faceId";
     public static final String IMAGE_ID = "imageId";
     public static final String URL = "url";
+    public static final String BASE64 = "base64";
     public static final String PATH = "path";
     public static final String VOICE_ID = "voiceId";
     public static final String XML = "xml";

@@ -1,7 +1,9 @@
 package forpleuvoir.dhwu1a.core.util;
 
 import com.google.gson.*;
+import forpleuvoir.dhwu1a.core.message.messageitem.Forward;
 
+import java.awt.*;
 import java.util.Collection;
 
 /**
@@ -14,7 +16,14 @@ import java.util.Collection;
  * <p>#create_time 2020/11/10 21:46
  */
 public class JsonUtil {
-    public static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static Gson gson;
+
+    static {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Forward.NodeItem.class, new Forward.NodeItemAdapter());
+        builder.setPrettyPrinting();
+        gson = builder.create();
+    }
 
     public static StringBuffer toStringBuffer(Object obj) {
         return new StringBuffer(gson.toJson(obj));
@@ -32,8 +41,9 @@ public class JsonUtil {
 
     /**
      * 检查json{@link String}是否包含 key
+     *
      * @param jsonString json{@link String}
-     * @param key key
+     * @param key        key
      * @return {@link Boolean}
      */
     public static boolean hasKey(String jsonString, String key) {

@@ -14,4 +14,5 @@ public interface IJsonData {
     default String toJsonString() {
         return JsonUtil.toJsonStr(this);
     }
+
 }

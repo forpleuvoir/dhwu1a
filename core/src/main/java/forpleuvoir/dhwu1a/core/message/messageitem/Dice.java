@@ -5,36 +5,23 @@ import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 
 import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
-
 /**
  * @author forpleuvoir
  * <p>#project_name dhwu1a
  * <p>#package forpleuvoir.dhwu1a.core.message.messageitem
- * <p>#class_name File
- * <p>#create_time 2021/6/30 0:29
+ * <p>#class_name Dice
+ * <p>#create_time 2021/7/1 1:08
  */
-public class File extends MessageItem {
+public class Dice extends MessageItem {
     /**
-     * 文件识别id
+     * 点数
      */
-    @SerializedName(ID)
-    public final long id;
-    /**
-     * 文件名
-     */
-    @SerializedName(NAME)
-    public final String name;
-    /**
-     * 文件大小
-     */
-    @SerializedName(SIZE)
-    public final long size;
+    @SerializedName(VALUE)
+    public Integer value;
 
-    public File( long id, String name, long size) {
-        super(MessageItemType.File);
-        this.id = id;
-        this.name = name;
-        this.size = size;
+    public Dice(Integer value) {
+        super(MessageItemType.Dice);
+        this.value = value;
     }
 
     @Override

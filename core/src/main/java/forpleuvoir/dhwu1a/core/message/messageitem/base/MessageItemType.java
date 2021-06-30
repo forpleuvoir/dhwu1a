@@ -1,10 +1,12 @@
-package forpleuvoir.dhwu1a.core.message.messageitem;
+package forpleuvoir.dhwu1a.core.message.messageitem.base;
 
+
+import forpleuvoir.dhwu1a.core.message.messageitem.*;
 
 /**
  * @author forpleuvoir
  * <p>#project_name dhwu1a
- * <p>#package forpleuvoir.dhwu1a.core.message.messageitem
+ * <p>#package forpleuvoir.dhwu1a.core.message.messageitem.base
  * <p>#class_name MessageItemType
  * <p>#create_time 2021/6/29 23:03
  */
@@ -24,12 +26,13 @@ public enum MessageItemType {
     Poke(Poke.class),
     Forward(Forward.class),
     File(File.class),
-    MusicShare(MusicShare.class);
+    MusicShare(MusicShare.class),
+    Dice(Dice.class);
 
     private final Class<? extends MessageItem> clazz;
 
     MessageItemType(Class<? extends MessageItem> clazz) {
-        this.clazz=clazz;
+        this.clazz = clazz;
     }
 
     public Class<? extends MessageItem> getClazz() {

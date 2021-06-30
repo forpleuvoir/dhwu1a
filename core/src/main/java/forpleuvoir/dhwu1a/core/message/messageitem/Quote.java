@@ -1,6 +1,8 @@
 package forpleuvoir.dhwu1a.core.message.messageitem;
 
 import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
+import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 
 import java.util.List;
 

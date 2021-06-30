@@ -2,10 +2,13 @@ package forpleuvoir.dhwu1a.core.message.messageitem;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
+import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.websocket.base.ApiKey;
 
 import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+
 /**
  * @author forpleuvoir
  * <p>#project_name dhwu1a
@@ -22,12 +25,12 @@ public class Source extends MessageItem {
     @SerializedName(ApiKey.TIME)
     public final Integer time;
 
-
-    public Source(JsonObject object) {
-        super(object);
-        this.id = object.get(ID).getAsInt();
-        this.time = object.get(TIME).getAsInt();
+    public Source(Integer id, Integer time) {
+        super(MessageItemType.Source);
+        this.id = id;
+        this.time = time;
     }
+
 
     @Override
     public String toPlainText() {
