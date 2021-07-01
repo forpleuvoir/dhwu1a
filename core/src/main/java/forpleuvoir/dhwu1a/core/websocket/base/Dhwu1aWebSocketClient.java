@@ -4,8 +4,6 @@ import forpleuvoir.dhwu1a.core.user.bot.Bot;
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,6 +19,7 @@ import java.net.URISyntaxException;
  */
 public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     private transient static final Dhwu1aLog log = new Dhwu1aLog(Dhwu1aWebSocketClient.class);
+    private transient OnWebSocketOpened onWebSocketOpened;
     protected final Bot bot;
     protected final String name;
 
@@ -35,12 +34,20 @@ public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     public void onOpen(ServerHandshake handshakeData) {
         Thread.currentThread().setName(name);
         log.info("WebSocketClient 初始化[code:{},message:{}]", handshakeData.getHttpStatus(),
-                 handshakeData.getHttpStatusMessage());
+                 handshakeData.getHttpStatusMessage()
+        );
+        if (onWebSocketOpened != null) {
+            onWebSocketOpened.invoke();
+        }
+    }
+
+    public void setOnOpenCallback(OnWebSocketOpened callback) {
+        this.onWebSocketOpened = callback;
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        log.info("WebSocketClient {} 关闭",this.name);
+        log.info("WebSocketClient {} 关闭", this.name);
     }
 
 

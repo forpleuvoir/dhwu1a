@@ -27,6 +27,10 @@ public class Bot {
      */
     public final long id;
     /**
+     * Bot资料
+     */
+    private BotProfile profile;
+    /**
      * 消息websocket客户端
      */
     private final MessageWSC messageWSC;
