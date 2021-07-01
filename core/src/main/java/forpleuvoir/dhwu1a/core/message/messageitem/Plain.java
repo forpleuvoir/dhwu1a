@@ -3,7 +3,8 @@ package forpleuvoir.dhwu1a.core.message.messageitem;
 import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
-import forpleuvoir.dhwu1a.core.websocket.base.ApiKey;
+
+import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.TEXT;
 
 /**
  * @author forpleuvoir
@@ -16,7 +17,7 @@ public class Plain extends MessageItem {
     /**
      * 文字消息
      */
-    @SerializedName(ApiKey.TEXT)
+    @SerializedName(TEXT)
     public final String text;
 
 
@@ -27,6 +28,6 @@ public class Plain extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return text;
     }
 }

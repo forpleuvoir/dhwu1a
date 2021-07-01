@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.FACE_ID;
+import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.NAME;
 
 /**
  * @author forpleuvoir
@@ -34,6 +35,6 @@ public class Face extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return String.format("/%s", name == null ? faceId : name);
     }
 }

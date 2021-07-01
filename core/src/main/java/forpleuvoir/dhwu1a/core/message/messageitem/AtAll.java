@@ -17,6 +17,6 @@ public class AtAll extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return "@全体成员";
     }
 }

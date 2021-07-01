@@ -14,7 +14,11 @@ public class ApiKey {
     public static final String CONTENT = "content";
     public static final String FRIEND = "friend";
     public static final String VALUE = "value";
+    public static final String PLATFORM = "platform";
     public static final String COMMAND = "command";
+    public static final String JOIN_TIMESTAMP = "joinTimestamp";
+    public static final String LAST_SPEAK_TIMESTAMP = "lastSpeakTimestamp";
+    public static final String MUTE_TIME_REMAINING = "muteTimeRemaining";
     public static final String SUB_COMMAND = "subCommand";
     public static final String SYNC_ID = "syncId";
     public static final String EVENT = "event";

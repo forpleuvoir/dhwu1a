@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.NAME;
 
 /**
  * @author forpleuvoir
@@ -27,7 +27,7 @@ public class Poke extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return name.getName();
     }
 
     /**
@@ -45,6 +45,10 @@ public class Poke extends MessageItem {
 
         PokeType(String name) {
             this.name = name;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 }

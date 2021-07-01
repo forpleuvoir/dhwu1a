@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.VALUE;
+
 /**
+ * 骰子消息
+ *
  * @author forpleuvoir
  * <p>#project_name dhwu1a
  * <p>#package forpleuvoir.dhwu1a.core.message.messageitem
@@ -26,6 +29,6 @@ public class Dice extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return String.format("骰子:%d点", value);
     }
 }

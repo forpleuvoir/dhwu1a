@@ -3,7 +3,7 @@ package forpleuvoir.dhwu1a.core.util;
 import com.google.gson.*;
 import forpleuvoir.dhwu1a.core.message.messageitem.Forward;
 
-import java.awt.*;
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 /**
@@ -53,6 +53,36 @@ public class JsonUtil {
         } catch (Exception ignore) {
             return false;
         }
+    }
+
+    /**
+     * 如果json{@link String} 包含对应key则返回{@link JsonObject}
+     *
+     * @param jsonString json{@link String}
+     * @param key        key
+     * @return {@link JsonObject} 如果没有则返回 null
+     */
+    @Nullable
+    public static JsonObject ifHasKey(String jsonString, String key) {
+        if (hasKey(jsonString, key)) {
+            return strToJsonObject(jsonString);
+        }
+        return null;
+    }
+
+    /**
+     * 获取json{@link String} 对应 key 的值
+     *
+     * @param jsonString json{@link String}
+     * @param key        key
+     * @return {@link JsonElement} 如果没有则返回 null
+     */
+    @Nullable
+    public static JsonElement getKeyValue(String jsonString, String key) {
+        if (hasKey(jsonString, key)) {
+            return strToJsonObject(jsonString).get(key);
+        }
+        return null;
     }
 
     /**

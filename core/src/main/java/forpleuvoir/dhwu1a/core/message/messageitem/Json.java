@@ -6,7 +6,7 @@ import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.JSON;
 
 /**
  * @author forpleuvoir
@@ -34,6 +34,6 @@ public class Json extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return json;
     }
 }

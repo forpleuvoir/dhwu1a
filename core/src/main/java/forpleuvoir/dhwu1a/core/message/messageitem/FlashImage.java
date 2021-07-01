@@ -45,6 +45,6 @@ public class FlashImage extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return "[闪照]";
     }
 }

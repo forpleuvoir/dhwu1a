@@ -1,13 +1,11 @@
 package forpleuvoir.dhwu1a.core.message.messageitem;
 
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
-import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.websocket.base.ApiKey;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.ID;
 
 /**
  * @author forpleuvoir
@@ -34,6 +32,6 @@ public class Source extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return JsonUtil.toJsonStr(this);
+        return String.format("[消息源(id:%d,time:%d)]", id, time);
     }
 }

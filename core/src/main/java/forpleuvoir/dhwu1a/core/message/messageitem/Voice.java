@@ -45,6 +45,6 @@ public class Voice extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return "[语音消息]";
     }
 }

@@ -55,6 +55,14 @@ public class Quote extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return String.format("回复[%s]:", getOriginPlainText());
+    }
+
+    private String getOriginPlainText() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Plain plain : origin) {
+            stringBuilder.append(plain.toPlainText());
+        }
+        return stringBuilder.toString();
     }
 }

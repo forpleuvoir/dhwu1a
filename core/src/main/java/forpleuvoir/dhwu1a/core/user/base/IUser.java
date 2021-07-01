@@ -1,4 +1,4 @@
-package forpleuvoir.dhwu1a.core.user;
+package forpleuvoir.dhwu1a.core.user.base;
 
 /**
  * @author forpleuvoir

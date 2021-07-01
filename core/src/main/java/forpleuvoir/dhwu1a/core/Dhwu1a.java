@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 public abstract class Dhwu1a {
     private final Dhwu1aConfig config;
     public static LogConfig LOG_CONFIG = new LogConfig();
-    private Bot bot;
+    public static Bot bot = null;
 
     public Dhwu1a(Dhwu1aConfig config) {
         Thread.currentThread().setName("dhwu1a");

@@ -1,9 +1,9 @@
 package forpleuvoir.dhwu1a.core.message.messageitem;
 
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
+
 import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
 /**
  * @author forpleuvoir
@@ -68,7 +68,7 @@ public class MusicShare extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return String.format("音乐分享(%s)", title);
     }
 
     public enum MusicShareKind {

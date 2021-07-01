@@ -39,6 +39,6 @@ public class File extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return String.format("文件(%s)", name);
     }
 }

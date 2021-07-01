@@ -1,11 +1,15 @@
 package forpleuvoir.dhwu1a.core.user.bot;
 
 import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
+import forpleuvoir.dhwu1a.core.user.Friend;
+import forpleuvoir.dhwu1a.core.user.Group;
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 import forpleuvoir.dhwu1a.core.websocket.EventWSC;
 import forpleuvoir.dhwu1a.core.websocket.MessageWSC;
 
+import javax.annotation.Nullable;
 import java.net.URISyntaxException;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * bot本体
@@ -26,8 +30,18 @@ public class Bot {
      * 消息websocket客户端
      */
     private final MessageWSC messageWSC;
+    /**
+     * 事件websocket客户端
+     */
     private final EventWSC eventWSC;
-
+    /**
+     * Bot的所有好友
+     */
+    private final ConcurrentLinkedDeque<Friend> friends = new ConcurrentLinkedDeque<>();
+    /**
+     * Bot加入的所有群
+     */
+    private final ConcurrentLinkedDeque<Group> groups = new ConcurrentLinkedDeque<>();
 
     public Bot(Dhwu1aConfig config) throws URISyntaxException {
         this.id = config.botId;
@@ -35,8 +49,19 @@ public class Bot {
         this.eventWSC = new EventWSC(this, config.ip, config.port, config.verifyKey);
     }
 
-    public void initialize(){
+    public void initialize() {
         this.messageWSC.connect();
         this.eventWSC.connect();
     }
+
+    @Nullable
+    public Friend getFriend(Long id) {
+        return friends.stream().filter(friend -> friend.id.equals(id)).findFirst().orElse(null);
+    }
+
+    @Nullable
+    public Group getGroup(Long id) {
+        return groups.stream().filter(group -> group.id.equals(id)).findFirst().orElse(null);
+    }
+
 }

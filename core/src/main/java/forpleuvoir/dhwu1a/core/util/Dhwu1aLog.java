@@ -13,7 +13,7 @@ import static forpleuvoir.dhwu1a.core.Dhwu1a.LOG_CONFIG;
  * <p>#create_time 2021/6/29 23:26
  */
 public class Dhwu1aLog {
-    private final Logger log;
+    private transient final Logger log;
 
     public Dhwu1aLog(Class<?> clazz) {
         this.log = LoggerFactory.getLogger(clazz);

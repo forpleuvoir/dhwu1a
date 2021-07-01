@@ -47,7 +47,7 @@ public class Forward extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return String.format("转发消息:%d条", nodeList.size());
     }
 
     /**

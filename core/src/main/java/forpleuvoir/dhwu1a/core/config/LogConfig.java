@@ -12,13 +12,13 @@ import forpleuvoir.dhwu1a.core.util.JsonUtil;
  */
 public class LogConfig {
     @SerializedName("info")
-    public Boolean info = false;
+    public Boolean info = true;
     @SerializedName("debug")
-    public Boolean debug = false;
+    public Boolean debug = true;
     @SerializedName("error")
-    public Boolean error = false;
+    public Boolean error = true;
     @SerializedName("warn")
-    public Boolean warn = false;
+    public Boolean warn = true;
 
     public LogConfig() {
     }

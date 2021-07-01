@@ -46,6 +46,6 @@ public class Image extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return null;
+        return "[图片]";
     }
 }
