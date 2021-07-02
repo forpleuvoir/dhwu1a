@@ -30,7 +30,7 @@ public abstract class AbstractSendData {
 
     }
 
-    public String toMessageJsonString() {
+    public final String toMessageJsonString() {
         JsonObject object = new JsonObject();
         object.addProperty(ApiKey.SYNC_ID, this.sendId);
         object.addProperty(COMMAND, command());
