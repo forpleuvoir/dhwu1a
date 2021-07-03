@@ -1,11 +1,11 @@
 package forpleuvoir.dhwu1a.core.message.messageitem;
 
 import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.common.ApiKey;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
-import forpleuvoir.dhwu1a.core.websocket.base.ApiKey;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.ID;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.ID;
 
 /**
  * @author forpleuvoir

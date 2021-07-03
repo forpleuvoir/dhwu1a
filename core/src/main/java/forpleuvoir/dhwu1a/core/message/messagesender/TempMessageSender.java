@@ -1,15 +1,14 @@
 package forpleuvoir.dhwu1a.core.message.messagesender;
 
 import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.common.data.GroupData;
 import forpleuvoir.dhwu1a.core.message.base.MessageSender;
-import forpleuvoir.dhwu1a.core.message.messagesender.data.GroupData;
-import forpleuvoir.dhwu1a.core.user.Group;
 import forpleuvoir.dhwu1a.core.user.Member;
 import forpleuvoir.dhwu1a.core.user.base.Permission;
 
 import javax.annotation.Nullable;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
 /**
  * @author forpleuvoir
@@ -42,9 +41,6 @@ public class TempMessageSender extends MessageSender {
     @Nullable
     @Override
     public Member getUser() {
-        if (bot == null) return null;
-        Group group = bot.getGroup(this.group.id);
-        if (group == null) return null;
-        return group.getMember(this.id);
+        return group.getUser().getMember(this.id);
     }
 }

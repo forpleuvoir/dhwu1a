@@ -1,9 +1,9 @@
-package forpleuvoir.dhwu1a.core.websocket.base;
+package forpleuvoir.dhwu1a.core.common;
 
 /**
  * @author forpleuvoir
  * <p>#project_name suika_tool_bot
- * <p>#package forpleuvoir.dhwu1a.core.websocket.base
+ * <p>#package forpleuvoir.dhwu1a.core.common
  * <p>#class_name ApiKey
  * <p>#create_time 2021/4/13 13:41
  */
@@ -14,7 +14,11 @@ public class ApiKey {
     public static final String CONTENT = "content";
     public static final String FRIEND = "friend";
     public static final String VALUE = "value";
+    public static final String INPUTTING = "inputting";
     public static final String PLATFORM = "platform";
+    public static final String FROM = "from";
+    public static final String HONOR = "honor";
+    public static final String TO = "to";
     public static final String COMMAND = "command";
     public static final String JOIN_TIMESTAMP = "joinTimestamp";
     public static final String LAST_SPEAK_TIMESTAMP = "lastSpeakTimestamp";

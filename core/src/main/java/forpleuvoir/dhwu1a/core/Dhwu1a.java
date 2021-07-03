@@ -19,7 +19,8 @@ import java.net.URISyntaxException;
 public abstract class Dhwu1a {
     private final Dhwu1aConfig config;
     public static LogConfig LOG_CONFIG = new LogConfig();
-    public static Bot bot = null;
+    public static Bot bot;
+
     private final EventBus eventBus;
 
     public Dhwu1a(Dhwu1aConfig config) {
@@ -27,15 +28,20 @@ public abstract class Dhwu1a {
         this.config = config;
         LOG_CONFIG = config.logConfig;
         eventBus = new EventBus();
+        bot = new Bot(config);
     }
 
     public void start() throws URISyntaxException {
-        bot = new Bot(this.config);
+
     }
 
     public abstract void initialize();
 
     public void close() {
+    }
+
+    public static Bot getBot() {
+        return bot;
     }
 
     public final EventBus getEventBus() {

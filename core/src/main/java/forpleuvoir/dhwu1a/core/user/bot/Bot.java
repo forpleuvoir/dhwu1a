@@ -8,7 +8,6 @@ import forpleuvoir.dhwu1a.core.websocket.EventWSC;
 import forpleuvoir.dhwu1a.core.websocket.MessageWSC;
 
 import javax.annotation.Nullable;
-import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
@@ -47,10 +46,10 @@ public class Bot {
      */
     private final ConcurrentLinkedDeque<Group> groups = new ConcurrentLinkedDeque<>();
 
-    public Bot(Dhwu1aConfig config) throws URISyntaxException {
+    public Bot(Dhwu1aConfig config) {
         this.id = config.botId;
-        this.messageWSC = new MessageWSC(this, config.ip, config.port, config.verifyKey);
-        this.eventWSC = new EventWSC(this, config.ip, config.port, config.verifyKey);
+        this.messageWSC = MessageWSC.getInstance(this, config.ip, config.port, config.verifyKey);
+        this.eventWSC = EventWSC.getInstance(this, config.ip, config.port, config.verifyKey);
     }
 
     public void initialize() {

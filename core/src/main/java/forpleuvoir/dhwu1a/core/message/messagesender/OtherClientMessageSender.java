@@ -5,7 +5,7 @@ import forpleuvoir.dhwu1a.core.user.base.User;
 
 import javax.annotation.Nullable;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.PLATFORM;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.PLATFORM;
 
 /**
  * @author forpleuvoir
@@ -15,7 +15,9 @@ import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.PLATFORM;
  * <p>#create_time 2021/7/1 22:43
  */
 public class OtherClientMessageSender extends MessageSender {
-
+    /**
+     * 平台
+     */
     @SuppressWarnings(PLATFORM)
     public String platform;
 

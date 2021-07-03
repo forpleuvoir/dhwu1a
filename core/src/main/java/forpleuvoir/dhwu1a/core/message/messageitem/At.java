@@ -6,8 +6,8 @@ import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 
 import javax.annotation.Nullable;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.DISPLAY;
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.TARGET;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.DISPLAY;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.TARGET;
 
 /**
  * @author forpleuvoir

@@ -6,7 +6,7 @@ import forpleuvoir.dhwu1a.core.message.base.Message;
 import forpleuvoir.dhwu1a.core.message.base.MessageType;
 import forpleuvoir.dhwu1a.core.user.Friend;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.FRIEND;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.FRIEND;
 
 /**
  * @author forpleuvoir

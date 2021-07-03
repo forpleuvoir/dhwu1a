@@ -6,7 +6,7 @@ import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.JSON;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.JSON;
 
 /**
  * @author forpleuvoir

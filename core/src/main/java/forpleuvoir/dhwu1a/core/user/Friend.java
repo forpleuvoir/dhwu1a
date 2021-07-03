@@ -3,8 +3,8 @@ package forpleuvoir.dhwu1a.core.user;
 import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.user.base.User;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.NICKNAME;
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.REMARK;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.NICKNAME;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.REMARK;
 
 /**
  * @author forpleuvoir

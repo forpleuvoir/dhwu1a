@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
 /**
  * 消息websocket客户端
@@ -27,6 +27,15 @@ import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
 public class MessageWSC extends Dhwu1aWebSocketClient {
 
     private final ConcurrentHashMap<Integer, Consumer<GetData>> callbacks = new ConcurrentHashMap<>();
+
+    public static MessageWSC getInstance(Bot bot, String ip, int port, String verifyKey) {
+        try {
+            return new MessageWSC(bot, ip, port, verifyKey);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public MessageWSC(Bot bot, String ip, int port, String verifyKey) throws URISyntaxException {
         super(String.format("%s/%s?%s=%s&%s=%d",

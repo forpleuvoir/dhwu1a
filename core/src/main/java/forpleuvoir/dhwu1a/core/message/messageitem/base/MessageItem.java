@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.TYPE;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.TYPE;
 
 /**
  * @author forpleuvoir

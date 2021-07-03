@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.VALUE;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.VALUE;
 
 /**
  * 骰子消息

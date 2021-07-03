@@ -10,7 +10,7 @@ import forpleuvoir.dhwu1a.core.util.JsonUtil;
 
 import javax.annotation.Nullable;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.ID;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.ID;
 
 /**
  * @author forpleuvoir

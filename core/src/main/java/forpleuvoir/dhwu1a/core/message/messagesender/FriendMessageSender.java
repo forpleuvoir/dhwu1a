@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.base.MessageSender;
 import forpleuvoir.dhwu1a.core.user.Friend;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.NICKNAME;
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.REMARK;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.NICKNAME;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.REMARK;
 
 /**
  * @author forpleuvoir
@@ -27,7 +27,6 @@ public class FriendMessageSender extends MessageSender {
 
     @Override
     public Friend getUser() {
-        if (bot == null) return null;
         return bot.getFriend(this.id);
     }
 }

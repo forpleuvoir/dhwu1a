@@ -2,7 +2,7 @@ package forpleuvoir.dhwu1a.core.user.bot;
 
 import com.google.gson.JsonObject;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.*;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
 /**
  * bot资料

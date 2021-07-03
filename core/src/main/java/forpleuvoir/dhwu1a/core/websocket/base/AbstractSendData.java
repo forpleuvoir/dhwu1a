@@ -1,11 +1,12 @@
 package forpleuvoir.dhwu1a.core.websocket.base;
 
 import com.google.gson.JsonObject;
+import forpleuvoir.dhwu1a.core.common.ApiKey;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.COMMAND;
-import static forpleuvoir.dhwu1a.core.websocket.base.ApiKey.SUB_COMMAND;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.COMMAND;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.SUB_COMMAND;
 
 /**
  * 抽象发送对象
