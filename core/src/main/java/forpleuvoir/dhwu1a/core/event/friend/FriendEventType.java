@@ -22,4 +22,13 @@ public enum FriendEventType {
     public Class<? extends FriendEvent> getClazz() {
         return clazz;
     }
+
+    public static boolean hasKey(String key) {
+        var isHas = false;
+        for (FriendEventType value : FriendEventType.values()) {
+            isHas = value.name().equals(key);
+            if (isHas) break;
+        }
+        return isHas;
+    }
 }

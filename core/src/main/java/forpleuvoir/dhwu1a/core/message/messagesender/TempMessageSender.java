@@ -32,7 +32,7 @@ public class TempMessageSender extends MessageSender {
     @SerializedName(MUTE_TIME_REMAINING)
     public Integer muteTimeRemaining;
     @SerializedName(GROUP)
-    private GroupData group;
+    public GroupData group;
 
     protected TempMessageSender(Long id) {
         super(id);
@@ -41,6 +41,8 @@ public class TempMessageSender extends MessageSender {
     @Nullable
     @Override
     public Member getUser() {
-        return group.getUser().getMember(this.id);
+        if (group.getUser() != null)
+            return group.getUser().getMember(this.id);
+        return null;
     }
 }

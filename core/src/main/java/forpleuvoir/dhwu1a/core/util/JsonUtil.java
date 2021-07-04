@@ -71,6 +71,21 @@ public class JsonUtil {
     }
 
     /**
+     * 如果json{@link String} 包含对应key则返回{@link JsonElement}
+     *
+     * @param jsonObject json{@link String}
+     * @param key        key
+     * @return {@link JsonElement} 如果没有则返回 null
+     */
+    @Nullable
+    public static JsonElement ifHasKey(JsonObject jsonObject, String key) {
+        if (jsonObject.has(key)) {
+            return jsonObject.get(key);
+        }
+        return null;
+    }
+
+    /**
      * 获取json{@link String} 对应 key 的值
      *
      * @param jsonString json{@link String}

@@ -29,11 +29,6 @@ public class FriendMessage extends Message {
 
     @Override
     public void printMessageLog() {
-
-    }
-
-    @Override
-    public String toPlainText() {
-        return null;
+        log.info("RM/Bot.{}:{}({}) >> {}", bot.id, friend.data.nickname, friend.id, this.toPlainText());
     }
 }

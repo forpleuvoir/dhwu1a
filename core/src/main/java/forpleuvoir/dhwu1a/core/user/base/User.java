@@ -1,6 +1,12 @@
 package forpleuvoir.dhwu1a.core.user.base;
 
 import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.message.base.MessageSenderObject;
+import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.function.Consumer;
 
 import static forpleuvoir.dhwu1a.core.common.ApiKey.ID;
 
@@ -21,4 +27,21 @@ public abstract class User implements IUser {
     protected User(Long id) {
         this.id = id;
     }
+
+    public void sendMessage(@Nonnull List<MessageItem> messageChain) {
+        messageSenderObject().sendMessage(messageChain, null);
+    }
+
+    @Override
+    public void sendMessage(Consumer<Integer> messageId, @Nonnull List<MessageItem> messageChain) {
+        messageSenderObject().sendMessage(messageChain, messageId);
+    }
+
+    @Override
+    public void quote(Integer quoteId, Consumer<Integer> messageId, @Nonnull List<MessageItem> messageChain) {
+        messageSenderObject().isQuoted(quoteId).sendMessage(messageChain, messageId);
+    }
+
+    public abstract MessageSenderObject messageSenderObject();
+
 }

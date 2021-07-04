@@ -1,5 +1,6 @@
 package forpleuvoir.dhwu1a.core.websocket.base;
 
+import forpleuvoir.dhwu1a.core.Dhwu1a;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 import org.java_websocket.client.WebSocketClient;
@@ -22,6 +23,7 @@ public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     private transient OnWebSocketOpened onWebSocketOpened;
     protected final Bot bot;
     protected final String name;
+
 
     public Dhwu1aWebSocketClient(String serverUri, Bot bot, String name) throws URISyntaxException {
         super(new URI(serverUri));
@@ -48,6 +50,8 @@ public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
         log.info("WebSocketClient {} 关闭", this.name);
+        if (Dhwu1a.running)
+            new Thread(this::reconnect).start();
     }
 
 

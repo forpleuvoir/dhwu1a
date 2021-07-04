@@ -10,7 +10,10 @@ import forpleuvoir.dhwu1a.core.user.bot.Bot;
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
@@ -35,7 +38,7 @@ public abstract class Message implements IMessage {
     /**
      * 消息发送者
      */
-    protected MessageSender sender;
+    public final MessageSender sender;
     /**
      * 消息链
      */
@@ -58,6 +61,15 @@ public abstract class Message implements IMessage {
         }
     }
 
+    public void quote(Consumer<Integer> messageId, List<MessageItem> messageChain) {
+        Objects.requireNonNull(this.sender.getUser()).quote(this.getMessageId(), messageId, messageChain);
+    }
+
+    public void quote(Consumer<Integer> messageId, MessageItem... messageChain) {
+        quote(messageId, Arrays.asList(messageChain));
+    }
+
+
     public Message(MessageType type, JsonObject object) {
         this.type = type;
         this.log = new Dhwu1aLog(this.getClass());
@@ -73,9 +85,23 @@ public abstract class Message implements IMessage {
         return stringBuilder.toString();
     }
 
+    public static String toPlainText(List<MessageItem> messageChain) {
+        StringBuilder stringBuilder = new StringBuilder();
+        messageChain.stream().filter(messageItem -> messageItem.type != MessageItemType.Source)
+                    .forEach(messageItem -> stringBuilder.append(messageItem.toPlainText()));
+        return stringBuilder.toString();
+    }
+
     @Nullable
     public Source getSource() {
         return (Source) messageChain.stream().filter(messageItem -> messageItem.type == MessageItemType.Source)
                                     .findFirst().orElse(null);
+    }
+
+    @Nullable
+    public Integer getMessageId() {
+        if (getSource() != null)
+            return getSource().id;
+        return null;
     }
 }

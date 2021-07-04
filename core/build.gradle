@@ -4,3 +4,43 @@ plugins {
 
 group = project.core_group as Object
 version = project.dhwu1a_version as Object
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+    publications {
+        core(MavenPublication) {
+            from components.java
+            pom {
+                name = 'dhwu1a-core'
+                description = 'dhwu1a core'
+                url = 'https://github.com/forpleuvoir/dhwuia'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'forpleuvoir'
+                        name = 'forpleuvoir'
+                        email = 'forpleuvoir@outlook.com'
+                    }
+                }
+            }
+        }
+    }
+}

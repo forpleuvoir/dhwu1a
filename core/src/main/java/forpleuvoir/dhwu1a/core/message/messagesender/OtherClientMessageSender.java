@@ -1,5 +1,6 @@
 package forpleuvoir.dhwu1a.core.message.messagesender;
 
+import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.message.base.MessageSender;
 import forpleuvoir.dhwu1a.core.user.base.User;
 
@@ -18,7 +19,7 @@ public class OtherClientMessageSender extends MessageSender {
     /**
      * 平台
      */
-    @SuppressWarnings(PLATFORM)
+    @SerializedName(PLATFORM)
     public String platform;
 
     protected OtherClientMessageSender(Long id) {

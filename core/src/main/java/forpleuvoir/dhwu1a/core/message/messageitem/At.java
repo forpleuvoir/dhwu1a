@@ -41,6 +41,6 @@ public class At extends MessageItem {
 
     @Override
     public String toPlainText() {
-        return String.format("@%s", display == null ? target : display);
+        return String.format("@%s", display == null || display.equals("") ? target : display);
     }
 }

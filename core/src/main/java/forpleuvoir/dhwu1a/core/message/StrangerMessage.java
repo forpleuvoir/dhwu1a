@@ -3,6 +3,7 @@ package forpleuvoir.dhwu1a.core.message;
 import com.google.gson.JsonObject;
 import forpleuvoir.dhwu1a.core.message.base.Message;
 import forpleuvoir.dhwu1a.core.message.base.MessageType;
+import forpleuvoir.dhwu1a.core.message.messagesender.StrangerMessageSender;
 
 /**
  * @author forpleuvoir
@@ -20,11 +21,9 @@ public class StrangerMessage extends Message {
 
     @Override
     public void printMessageLog() {
-
+        log.info("M/Bot.{} 陌生人[{}({})] >> {}", bot.id, ((StrangerMessageSender) sender).nickname, sender.id,
+                 toPlainText()
+        );
     }
 
-    @Override
-    public String toPlainText() {
-        return null;
-    }
 }

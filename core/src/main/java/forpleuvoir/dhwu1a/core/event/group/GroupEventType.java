@@ -40,4 +40,13 @@ public enum GroupEventType {
     public Class<? extends GroupEvent> getClazz() {
         return clazz;
     }
+
+    public static boolean hasKey(String key) {
+        var isHas = false;
+        for (GroupEventType value : GroupEventType.values()) {
+            isHas = value.name().equals(key);
+            if (isHas) break;
+        }
+        return isHas;
+    }
 }

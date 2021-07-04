@@ -1,11 +1,24 @@
 package forpleuvoir.dhwu1a.core.websocket;
 
+import com.google.gson.JsonObject;
+import forpleuvoir.dhwu1a.core.event.NudgeEvent;
+import forpleuvoir.dhwu1a.core.event.base.Dhwu1aEvent;
+import forpleuvoir.dhwu1a.core.event.base.EventBus;
+import forpleuvoir.dhwu1a.core.event.bot.BotEvent;
+import forpleuvoir.dhwu1a.core.event.bot.BotEventType;
+import forpleuvoir.dhwu1a.core.event.friend.FriendEvent;
+import forpleuvoir.dhwu1a.core.event.friend.FriendEventType;
+import forpleuvoir.dhwu1a.core.event.group.GroupEvent;
+import forpleuvoir.dhwu1a.core.event.group.GroupEventType;
+import forpleuvoir.dhwu1a.core.event.request.RequestEvent;
+import forpleuvoir.dhwu1a.core.event.request.RequestEventType;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.util.URLUtils;
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient;
 
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
@@ -40,10 +53,28 @@ public class EventWSC extends Dhwu1aWebSocketClient {
     }
 
     @Override
-    public void onMessage(String message) {
-        if (JsonUtil.hasKey(message, SYNC_ID)){
-
-
-        }
+    public void onMessage(String data) {
+        JsonObject jsonObject = JsonUtil.ifHasKey(data, SYNC_ID);
+        Optional.ofNullable(jsonObject).ifPresent(object -> {
+            if (jsonObject.get(SYNC_ID).getAsString().equals("")) return;
+            GetData getData = JsonUtil.gson.fromJson(jsonObject, GetData.class);
+            if (getData.isCallback()) {
+                return;
+            }
+            String type = getData.data.get(TYPE).getAsString();
+            Dhwu1aEvent event = null;
+            if (BotEventType.hasKey(type)) {
+                event = BotEvent.parse(getData.data);
+            } else if (FriendEventType.hasKey(type)) {
+                event = FriendEvent.parse(getData.data);
+            } else if (GroupEventType.hasKey(type)) {
+                event = GroupEvent.parse(getData.data);
+            } else if (RequestEventType.hasKey(type)) {
+                event = RequestEvent.parse(getData.data);
+            } else if (NudgeEvent.type.equals(type)) {
+                event = new NudgeEvent(getData.data);
+            }
+            Optional.ofNullable(event).ifPresent(EventBus::broadcast);
+        });
     }
 }

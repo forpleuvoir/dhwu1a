@@ -1,6 +1,8 @@
-package forpleuvoir.dhwu1a.core.user.bot;
+package forpleuvoir.dhwu1a.core.user.base;
 
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.common.IJsonData;
 
 import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
@@ -9,20 +11,43 @@ import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
  *
  * @author forpleuvoir
  * <p>#project_name dhwu1a
- * <p>#package forpleuvoir.dhwu1a.core.user.bot
- * <p>#class_name BotProfile
+ * <p>#package forpleuvoir.dhwu1a.core.user.bot.base
+ * <p>#class_name Profile
  * <p>#create_time 2021/6/28 22:32
  */
-public class BotProfile {
-
+public class Profile implements IJsonData {
+    /**
+     * 昵称
+     */
+    @SerializedName(NICKNAME)
     public final String nickname;
+    /**
+     * 邮箱
+     */
+    @SerializedName(EMAIL)
     public final String email;
-    public final int age;
-    public final int level;
+    /**
+     * 年龄
+     */
+    @SerializedName(AGE)
+    public final Integer age;
+    /**
+     * 等级
+     */
+    @SerializedName(LEVEL)
+    public final Integer level;
+    /**
+     * 标记
+     */
+    @SerializedName(SIGN)
     public final String sign;
+    /**
+     * 性别
+     */
+    @SerializedName(SEX)
     public final String sex;
 
-    public BotProfile(JsonObject jsonObject) {
+    public Profile(JsonObject jsonObject) {
         this.nickname = jsonObject.get(NICKNAME).getAsString();
         this.email = jsonObject.get(EMAIL).getAsString();
         this.age = jsonObject.get(AGE).getAsInt();
@@ -31,7 +56,7 @@ public class BotProfile {
         this.sex = jsonObject.get(SEX).getAsString();
     }
 
-    public BotProfile(String nickname, String email, int age, int level, String sign, String sex) {
+    public Profile(String nickname, String email, int age, int level, String sign, String sex) {
         this.nickname = nickname;
         this.email = email;
         this.age = age;
@@ -39,4 +64,5 @@ public class BotProfile {
         this.sign = sign;
         this.sex = sex;
     }
+
 }

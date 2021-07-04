@@ -3,6 +3,7 @@ package forpleuvoir.dhwu1a.core.message;
 import com.google.gson.JsonObject;
 import forpleuvoir.dhwu1a.core.message.base.Message;
 import forpleuvoir.dhwu1a.core.message.base.MessageType;
+import forpleuvoir.dhwu1a.core.message.messagesender.OtherClientMessageSender;
 
 /**
  * @author forpleuvoir
@@ -18,11 +19,9 @@ public class OtherClientMessage extends Message {
 
     @Override
     public void printMessageLog() {
-
+        log.info("RM/Bot.{} OtherClient[{}] >> {}", bot.id, ((OtherClientMessageSender) sender).platform,
+                 toPlainText()
+        );
     }
 
-    @Override
-    public String toPlainText() {
-        return null;
-    }
 }

@@ -51,6 +51,7 @@ public class ApiKey {
     public static final String ORIGIN = "origin";
     public static final String DISPLAY = "display";
     public static final String TARGET = "target";
+    public static final String MEMBER_ID = "memberId";
     public static final String FACE_ID = "faceId";
     public static final String IMAGE_ID = "imageId";
     public static final String URL = "url";

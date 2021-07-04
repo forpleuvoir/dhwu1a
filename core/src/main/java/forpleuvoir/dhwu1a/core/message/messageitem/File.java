@@ -18,7 +18,7 @@ public class File extends MessageItem {
      * 文件识别id
      */
     @SerializedName(ID)
-    public final long id;
+    public final String id;
     /**
      * 文件名
      */
@@ -28,9 +28,9 @@ public class File extends MessageItem {
      * 文件大小
      */
     @SerializedName(SIZE)
-    public final long size;
+    public final Long size;
 
-    public File( long id, String name, long size) {
+    public File(String id, String name, Long size) {
         super(MessageItemType.File);
         this.id = id;
         this.name = name;

@@ -23,7 +23,7 @@ public abstract class MessageSender implements IJsonData {
     /**
      * 接收消息的Bot
      */
-    public transient final Bot bot = Dhwu1a.bot;
+    public static transient final Bot bot = Dhwu1a.bot;
     /**
      * 发送者QQ号
      */

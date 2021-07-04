@@ -1,10 +1,17 @@
 package forpleuvoir.dhwu1a.core.user;
 
-import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.common.data.FriendData;
+import forpleuvoir.dhwu1a.core.common.data.Subject;
+import forpleuvoir.dhwu1a.core.message.base.MessageSenderObject;
 import forpleuvoir.dhwu1a.core.user.base.User;
+import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
+import forpleuvoir.dhwu1a.core.websocket.base.CommandSender;
+import forpleuvoir.dhwu1a.core.websocket.command.Command;
 
-import static forpleuvoir.dhwu1a.core.common.ApiKey.NICKNAME;
-import static forpleuvoir.dhwu1a.core.common.ApiKey.REMARK;
+import java.util.Map;
+
+import static forpleuvoir.dhwu1a.core.Dhwu1a.bot;
+import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
 /**
  * @author forpleuvoir
@@ -14,20 +21,36 @@ import static forpleuvoir.dhwu1a.core.common.ApiKey.REMARK;
  * <p>#create_time 2021/6/29 22:44
  */
 public class Friend extends User {
+    private transient static final Dhwu1aLog log = new Dhwu1aLog(Friend.class);
     /**
-     * 好友的昵称
+     * 好友信息
      */
-    @SerializedName(NICKNAME)
-    public final String nickname;
-    /**
-     * 好友的备注
-     */
-    @SerializedName(REMARK)
-    public final String remark;
+    public final FriendData data;
 
-    protected Friend(Long id, String nickname, String remark) {
-        super(id);
-        this.nickname = nickname;
-        this.remark = remark;
+
+    public Friend(FriendData data) {
+        super(data.id);
+        this.data = data;
+    }
+
+    public void nudge() {
+        bot.sendCommand(new CommandSender(
+                                Command.sendNudge,
+                                Map.of(TARGET, this.id, SUBJECT, this.id, KIND, Subject.SubjectType.Friend)
+                        ),
+                        null
+        );
+    }
+
+    @Override
+    public String toJsonString() {
+        return data.toJsonString();
+    }
+
+    @Override
+    public MessageSenderObject messageSenderObject() {
+        return new MessageSenderObject(Command.sendFriendMessage, log,
+                                       String.format("%s(%d)", this.data.nickname, this.id), this
+        );
     }
 }
