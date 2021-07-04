@@ -24,4 +24,14 @@ public enum RequestEventType {
     public Class<? extends RequestEvent> getClazz() {
         return clazz;
     }
+
+
+    public static boolean hasKey(String key) {
+        var isHas = false;
+        for (RequestEventType value : RequestEventType.values()) {
+            isHas = value.equals(RequestEventType.valueOf(key));
+            if (isHas) break;
+        }
+        return isHas;
+    }
 }

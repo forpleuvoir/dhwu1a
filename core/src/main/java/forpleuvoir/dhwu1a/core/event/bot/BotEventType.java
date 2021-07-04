@@ -24,4 +24,13 @@ public enum BotEventType {
     public Class<? extends BotEvent> getClazz() {
         return clazz;
     }
+
+    public static boolean hasKey(String key) {
+        var isHas = false;
+        for (BotEventType value : BotEventType.values()) {
+            isHas = value.equals(BotEventType.valueOf(key));
+            if (isHas) break;
+        }
+        return isHas;
+    }
 }

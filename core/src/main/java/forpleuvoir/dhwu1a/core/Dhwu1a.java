@@ -2,7 +2,6 @@ package forpleuvoir.dhwu1a.core;
 
 import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
 import forpleuvoir.dhwu1a.core.config.LogConfig;
-import forpleuvoir.dhwu1a.core.event.base.EventBus;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 
 import java.net.URISyntaxException;
@@ -21,13 +20,11 @@ public abstract class Dhwu1a {
     public static LogConfig LOG_CONFIG = new LogConfig();
     public static Bot bot;
 
-    private final EventBus eventBus;
 
     public Dhwu1a(Dhwu1aConfig config) {
         Thread.currentThread().setName("dhwu1a");
         this.config = config;
         LOG_CONFIG = config.logConfig;
-        eventBus = new EventBus();
         bot = new Bot(config);
     }
 
@@ -44,7 +41,4 @@ public abstract class Dhwu1a {
         return bot;
     }
 
-    public final EventBus getEventBus() {
-        return eventBus;
-    }
 }

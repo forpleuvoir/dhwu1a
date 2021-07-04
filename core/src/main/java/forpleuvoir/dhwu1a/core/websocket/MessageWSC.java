@@ -1,6 +1,8 @@
 package forpleuvoir.dhwu1a.core.websocket;
 
 import com.google.gson.JsonObject;
+import forpleuvoir.dhwu1a.core.event.base.EventBus;
+import forpleuvoir.dhwu1a.core.event.message.MessageEvent;
 import forpleuvoir.dhwu1a.core.message.base.Message;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
@@ -9,7 +11,7 @@ import forpleuvoir.dhwu1a.core.websocket.base.AbstractSendData;
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient;
 
 import java.net.URISyntaxException;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -56,20 +58,21 @@ public class MessageWSC extends Dhwu1aWebSocketClient {
     @Override
     public void onMessage(String data) {
         JsonObject jsonObject = JsonUtil.ifHasKey(data, SYNC_ID);
-        if (jsonObject != null) {
+        Optional.ofNullable(jsonObject).ifPresent(object -> {
             GetData getData = JsonUtil.gson.fromJson(jsonObject, GetData.class);
             if (!getData.isCallback()) {
                 Message message = Message.parse(getData.data);
-                switch (Objects.requireNonNull(message).type) {
-                    //todo 消息事件发布
-                }
-
+                Optional.ofNullable(message)
+                        .ifPresent(message1 ->
+                                           EventBus.broadcast(MessageEvent.parse(message1)
+                                           )
+                        );
             } else {
                 if (callbacks.containsKey(getData.syncId)) {
                     callbacks.get(getData.syncId).accept(getData);
                     callbacks.remove(getData.syncId);
                 }
             }
-        }
+        });
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.common.data.GroupData;
 import forpleuvoir.dhwu1a.core.message.base.MessageSender;
 import forpleuvoir.dhwu1a.core.user.Group;
+import forpleuvoir.dhwu1a.core.user.Member;
 import forpleuvoir.dhwu1a.core.user.base.Permission;
 
 import javax.annotation.Nullable;
@@ -42,5 +43,12 @@ public class GroupMessageSender extends MessageSender {
     @Override
     public Group getUser() {
         return group.getUser();
+    }
+
+    @Nullable
+    public Member getMember() {
+        if (group.getUser() != null)
+            return group.getUser().getMember(this.id);
+        return null;
     }
 }

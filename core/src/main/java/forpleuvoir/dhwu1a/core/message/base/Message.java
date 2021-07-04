@@ -35,7 +35,7 @@ public abstract class Message implements IMessage {
     /**
      * 消息发送者
      */
-    protected MessageSender sender;
+    public final MessageSender sender;
     /**
      * 消息链
      */
@@ -57,6 +57,7 @@ public abstract class Message implements IMessage {
             return null;
         }
     }
+
 
     public Message(MessageType type, JsonObject object) {
         this.type = type;
