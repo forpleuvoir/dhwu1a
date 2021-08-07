@@ -23,17 +23,23 @@ import java.util.function.Consumer;
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class EventBus {
+    private static final transient EventBus INSTANCE = new EventBus();
+
+    public static EventBus getInstance() {
+        return INSTANCE;
+    }
+
     private static transient final Dhwu1aLog log = new Dhwu1aLog(EventBus.class);
-    private static transient final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-    private static transient final
+    private transient final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+    private transient final
     ConcurrentHashMap<Class<? extends Dhwu1aEvent>, ConcurrentLinkedQueue<Consumer<? extends Dhwu1aEvent>>>
             eventListeners = new ConcurrentHashMap<>();
 
-    static {
+    private EventBus() {
         executor.setThreadFactory(new NamedThreadFactory("Dhwu1a Event"));
     }
 
-    public static <E extends Dhwu1aEvent> void broadcast(E event) {
+    public <E extends Dhwu1aEvent> void broadcast(E event) {
         executor.execute(() -> {
             try {
                 event.printEventLog();
@@ -44,7 +50,7 @@ public class EventBus {
         });
     }
 
-    public static <E extends Dhwu1aEvent> void subscribe(Class<E> channel, Consumer<E> listener) {
+    public <E extends Dhwu1aEvent> void subscribe(Class<E> channel, Consumer<E> listener) {
         log.debug("事件订阅({})", channel.getName());
         if (eventListeners.containsKey(channel)) {
             if (!eventListeners.get(channel).contains(listener)) {
@@ -56,7 +62,7 @@ public class EventBus {
     }
 
 
-    private static ImmutableMap<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? extends Dhwu1aEvent>>> getEventListeners() {
+    private ImmutableMap<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? extends Dhwu1aEvent>>> getEventListeners() {
         var builder = new ImmutableMap.Builder<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? extends Dhwu1aEvent>>>();
         eventListeners.forEach((k, v) -> {
             var listBuilder = new ImmutableList.Builder<Consumer<? extends Dhwu1aEvent>>();

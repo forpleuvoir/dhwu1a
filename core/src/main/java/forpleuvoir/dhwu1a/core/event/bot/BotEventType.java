@@ -28,7 +28,7 @@ public enum BotEventType {
     public static boolean hasKey(String key) {
         var isHas = false;
         for (BotEventType value : BotEventType.values()) {
-                isHas = value.name().equals(key);
+            isHas = value.name().equals(key);
             if (isHas) break;
         }
         return isHas;

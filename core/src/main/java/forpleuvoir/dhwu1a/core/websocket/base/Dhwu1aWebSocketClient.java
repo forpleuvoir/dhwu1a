@@ -1,6 +1,7 @@
 package forpleuvoir.dhwu1a.core.websocket.base;
 
 import forpleuvoir.dhwu1a.core.Dhwu1a;
+import forpleuvoir.dhwu1a.core.event.base.EventBus;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 import org.java_websocket.client.WebSocketClient;
@@ -21,6 +22,7 @@ import java.net.URISyntaxException;
 public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     private transient static final Dhwu1aLog log = new Dhwu1aLog(Dhwu1aWebSocketClient.class);
     private transient OnWebSocketOpened onWebSocketOpened;
+    protected final EventBus eventBus = Dhwu1a.getInstance().getEventBus();
     protected final Bot bot;
     protected final String name;
 
@@ -36,7 +38,7 @@ public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     public void onOpen(ServerHandshake handshakeData) {
         Thread.currentThread().setName(name);
         log.info("WebSocketClient 初始化[code:{},message:{}]", handshakeData.getHttpStatus(),
-                 handshakeData.getHttpStatusMessage()
+                handshakeData.getHttpStatusMessage()
         );
         if (onWebSocketOpened != null) {
             onWebSocketOpened.invoke();

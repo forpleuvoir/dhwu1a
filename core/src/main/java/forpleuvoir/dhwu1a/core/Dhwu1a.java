@@ -2,6 +2,7 @@ package forpleuvoir.dhwu1a.core;
 
 import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
 import forpleuvoir.dhwu1a.core.config.LogConfig;
+import forpleuvoir.dhwu1a.core.event.base.EventBus;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 
 import java.util.List;
@@ -24,10 +25,11 @@ public class Dhwu1a {
     public Bot bot;
     private boolean running;
     private final Dhwu1aConfig config;
+    private EventBus eventBus;
 
-    private List<Consumer<Dhwu1a>> onStart = new CopyOnWriteArrayList<>();
-    private List<Consumer<Dhwu1a>> onClose = new CopyOnWriteArrayList<>();
-    private List<Consumer<Dhwu1a>> onRestart = new CopyOnWriteArrayList<>();
+    private final List<Consumer<Dhwu1a>> onStart = new CopyOnWriteArrayList<>();
+    private final List<Consumer<Dhwu1a>> onClose = new CopyOnWriteArrayList<>();
+    private final List<Consumer<Dhwu1a>> onRestart = new CopyOnWriteArrayList<>();
 
 
     public static Dhwu1a getInstance() {
@@ -49,6 +51,7 @@ public class Dhwu1a {
     public void start() {
         Bot.initialize(config);
         this.bot = Bot.getInstance();
+        this.eventBus = EventBus.getInstance();
         running = true;
         onStart();
     }
@@ -62,7 +65,7 @@ public class Dhwu1a {
         onRestart();
     }
 
-    private void onRestart(){
+    private void onRestart() {
         onRestart.forEach(onRestartConsumer -> onRestartConsumer.accept(this));
     }
 
@@ -73,7 +76,7 @@ public class Dhwu1a {
         onClose();
     }
 
-    private void onClose(){
+    private void onClose() {
         onClose.forEach(onCloseConsumer -> onCloseConsumer.accept(this));
     }
 
@@ -86,13 +89,19 @@ public class Dhwu1a {
     }
 
 
-    public void addOnStartListener(Consumer<Dhwu1a> consumer){
+    public void addOnStartListener(Consumer<Dhwu1a> consumer) {
         onStart.add(consumer);
     }
-    public void addOnRestartListener(Consumer<Dhwu1a> consumer){
+
+    public void addOnRestartListener(Consumer<Dhwu1a> consumer) {
         onRestart.add(consumer);
     }
-    public void addOnCloseListener(Consumer<Dhwu1a> consumer){
+
+    public void addOnCloseListener(Consumer<Dhwu1a> consumer) {
         onClose.add(consumer);
+    }
+
+    public EventBus getEventBus() {
+        return eventBus;
     }
 }

@@ -3,7 +3,6 @@ package forpleuvoir.dhwu1a.core.websocket;
 import com.google.gson.JsonObject;
 import forpleuvoir.dhwu1a.core.event.NudgeEvent;
 import forpleuvoir.dhwu1a.core.event.base.Dhwu1aEvent;
-import forpleuvoir.dhwu1a.core.event.base.EventBus;
 import forpleuvoir.dhwu1a.core.event.bot.BotEvent;
 import forpleuvoir.dhwu1a.core.event.bot.BotEventType;
 import forpleuvoir.dhwu1a.core.event.friend.FriendEvent;
@@ -76,7 +75,7 @@ public class EventWSC extends Dhwu1aWebSocketClient {
             } else if (NudgeEvent.type.equals(type)) {
                 event = new NudgeEvent(getData.data);
             }
-            Optional.ofNullable(event).ifPresent(EventBus::broadcast);
+            Optional.ofNullable(event).ifPresent(eventBus::broadcast);
         });
     }
 }

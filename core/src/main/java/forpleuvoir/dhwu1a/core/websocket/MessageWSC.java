@@ -1,7 +1,6 @@
 package forpleuvoir.dhwu1a.core.websocket;
 
 import com.google.gson.JsonObject;
-import forpleuvoir.dhwu1a.core.event.base.EventBus;
 import forpleuvoir.dhwu1a.core.event.message.MessageEvent;
 import forpleuvoir.dhwu1a.core.message.base.Message;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
@@ -67,7 +66,7 @@ public class MessageWSC extends Dhwu1aWebSocketClient {
                 Message message = Message.parse(getData.data);
                 Optional.ofNullable(message)
                         .ifPresent(message1 ->
-                                EventBus.broadcast(MessageEvent.parse(message1)
+                                eventBus.broadcast(MessageEvent.parse(message1)
                                 )
                         );
             } else {
