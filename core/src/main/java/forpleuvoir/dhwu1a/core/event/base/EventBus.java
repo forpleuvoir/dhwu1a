@@ -61,6 +61,9 @@ public class EventBus {
         }
     }
 
+    public void registerEventsListener(Listener listener) {
+        EventHandlerParser.parse(listener, this);
+    }
 
     private ImmutableMap<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? extends Dhwu1aEvent>>> getEventListeners() {
         var builder = new ImmutableMap.Builder<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? extends Dhwu1aEvent>>>();
