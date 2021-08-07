@@ -49,9 +49,9 @@ public class Dhwu1a {
     }
 
     public void start() {
+        this.eventBus = EventBus.getInstance();
         Bot.initialize(config);
         this.bot = Bot.getInstance();
-        this.eventBus = EventBus.getInstance();
         running = true;
         onStart();
     }

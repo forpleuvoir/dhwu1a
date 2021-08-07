@@ -108,7 +108,7 @@ public class JsonUtil {
      * @throws JsonSyntaxException 无效的json文本
      */
     public static JsonObject strToJsonObject(String json) {
-        return JsonParser.parseString(json).getAsJsonObject();
+        return new JsonParser().parse(json).getAsJsonObject();
     }
 
     /**
@@ -130,7 +130,7 @@ public class JsonUtil {
      * @throws JsonSyntaxException 无效的json文本
      */
     public static JsonElement strToJsonElement(String json) {
-        return JsonParser.parseString(json);
+        return new JsonParser().parse(json);
     }
 
     /**
@@ -141,7 +141,7 @@ public class JsonUtil {
      * @throws JsonSyntaxException 无效的json文本
      */
     public static JsonArray strToJsonArray(String json) {
-        return JsonParser.parseString(json).getAsJsonArray();
+        return new JsonParser().parse(json).getAsJsonArray();
     }
 
     /**

@@ -26,6 +26,7 @@ public class ApiKey {
     public static final String SUB_COMMAND = "subCommand";
     public static final String SYNC_ID = "syncId";
     public static final String EVENT = "event";
+    public static final String ALL = "all";
     public static final String EMAIL = "email";
     public static final String AGE = "age";
     public static final String LEVEL = "level";

@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
 public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     private transient static final Dhwu1aLog log = new Dhwu1aLog(Dhwu1aWebSocketClient.class);
     private transient OnWebSocketOpened onWebSocketOpened;
-    protected final EventBus eventBus = Dhwu1a.getInstance().getEventBus();
+    protected final EventBus eventBus;
     protected final Bot bot;
     protected final String name;
 
@@ -31,6 +31,7 @@ public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
         super(new URI(serverUri));
         this.bot = bot;
         this.name = name;
+        this.eventBus = Dhwu1a.getInstance().getEventBus();
     }
 
 
@@ -38,7 +39,7 @@ public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     public void onOpen(ServerHandshake handshakeData) {
         Thread.currentThread().setName(name);
         log.info("WebSocketClient 初始化[code:{},message:{}]", handshakeData.getHttpStatus(),
-                handshakeData.getHttpStatusMessage()
+                 handshakeData.getHttpStatusMessage()
         );
         if (onWebSocketOpened != null) {
             onWebSocketOpened.invoke();
