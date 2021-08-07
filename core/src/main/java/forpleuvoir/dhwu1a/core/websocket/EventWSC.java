@@ -13,6 +13,7 @@ import forpleuvoir.dhwu1a.core.event.group.GroupEventType;
 import forpleuvoir.dhwu1a.core.event.request.RequestEvent;
 import forpleuvoir.dhwu1a.core.event.request.RequestEventType;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
+import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.util.URLUtils;
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient;
@@ -32,23 +33,24 @@ import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
  * <p>#create_time 2021/6/28 22:09
  */
 public class EventWSC extends Dhwu1aWebSocketClient {
+    private transient static final Dhwu1aLog log = new Dhwu1aLog(Dhwu1aWebSocketClient.class);
 
     public static EventWSC getInstance(Bot bot, String ip, int port, String verifyKey) {
         try {
             return new EventWSC(bot, ip, port, verifyKey);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }
 
     public EventWSC(Bot bot, String ip, int port, String verifyKey) throws URISyntaxException {
         super(String.format("%s/%s?%s=%s&%s=%d",
-                            URLUtils.getWSURL(ip, port),
-                            EVENT,
-                            VERIFY_KEY, verifyKey,
-                            QQ, bot.id
-              ), bot, EVENT
+                URLUtils.getWSURL(ip, port),
+                EVENT,
+                VERIFY_KEY, verifyKey,
+                QQ, bot.id
+                ), bot, EVENT
         );
     }
 

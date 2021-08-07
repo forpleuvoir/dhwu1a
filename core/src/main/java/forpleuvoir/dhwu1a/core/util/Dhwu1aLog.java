@@ -1,9 +1,10 @@
 package forpleuvoir.dhwu1a.core.util;
 
+import forpleuvoir.dhwu1a.core.Dhwu1a;
+import forpleuvoir.dhwu1a.core.config.LogConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static forpleuvoir.dhwu1a.core.Dhwu1a.LOG_CONFIG;
 
 /**
  * @author forpleuvoir
@@ -13,6 +14,8 @@ import static forpleuvoir.dhwu1a.core.Dhwu1a.LOG_CONFIG;
  * <p>#create_time 2021/6/29 23:26
  */
 public class Dhwu1aLog {
+    public static LogConfig LOG_CONFIG = Dhwu1a.getInstance().logConfig;
+
     private transient final Logger log;
 
     public Dhwu1aLog(Class<?> clazz) {

@@ -38,11 +38,6 @@ public class GroupMessage extends Message {
         return ((GroupMessageSender) sender).getMember();
     }
 
-    @Nullable
-    public Member getMember() {
-        return ((GroupMessageSender) sender).getMember();
-    }
-
     @Override
     public void printMessageLog() {
         log.info("RM/Bot.{}:[{}({})] {}({}) >> {}", bot.id, group.data.name, group.id,

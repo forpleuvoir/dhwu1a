@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static forpleuvoir.dhwu1a.core.Dhwu1a.bot;
 import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
 /**

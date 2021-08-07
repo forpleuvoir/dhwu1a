@@ -1,8 +1,10 @@
 package forpleuvoir.dhwu1a.core.user.base;
 
 import com.google.gson.annotations.SerializedName;
+import forpleuvoir.dhwu1a.core.Dhwu1a;
 import forpleuvoir.dhwu1a.core.message.base.MessageSenderObject;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
+import forpleuvoir.dhwu1a.core.user.bot.Bot;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -18,6 +20,8 @@ import static forpleuvoir.dhwu1a.core.common.ApiKey.ID;
  * <p>#create_time 2021/6/29 22:32
  */
 public abstract class User implements IUser {
+
+    public final Bot bot = Dhwu1a.getInstance().getBot();
     /**
      * 用户ID(QQ号)
      */

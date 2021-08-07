@@ -26,14 +26,14 @@ public abstract class Dhwu1aEvent implements IPlainText, IJsonData, IEventBroadc
     /**
      * @see #initialize()
      */
-    public transient final Bot bot = Dhwu1a.getBot();
+    public transient final Bot bot = Dhwu1a.getInstance().getBot();
 
     /**
      * 所有非new实例化的事件必须调用此方法才能获取Bot以及log
      */
     public Dhwu1aEvent initialize() {
         ReflectionUtil.setFieldValue("log", this, new Dhwu1aLog(this.getClass()));
-        ReflectionUtil.setFieldValue("bot", this, Dhwu1a.getBot());
+        ReflectionUtil.setFieldValue("bot", this, Dhwu1a.getInstance().getBot());
         return this;
     }
 

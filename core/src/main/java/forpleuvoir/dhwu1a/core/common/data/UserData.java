@@ -18,7 +18,7 @@ import static forpleuvoir.dhwu1a.core.common.ApiKey.ID;
  * <p>#create_time 2021/7/3 21:53
  */
 public abstract class UserData<U extends User> implements IJsonData {
-    public static transient final Bot bot = Dhwu1a.bot;
+    public static transient final Bot bot = Dhwu1a.getInstance().getBot();
 
     @SerializedName(ID)
     public final Long id;

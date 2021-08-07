@@ -50,7 +50,7 @@ public abstract class Dhwu1aWebSocketClient extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
         log.info("WebSocketClient {} 关闭", this.name);
-        if (Dhwu1a.running)
+        if (Dhwu1a.getInstance().isRunning())
             new Thread(this::reconnect).start();
     }
 

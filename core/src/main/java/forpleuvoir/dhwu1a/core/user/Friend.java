@@ -10,7 +10,6 @@ import forpleuvoir.dhwu1a.core.websocket.command.Command;
 
 import java.util.Map;
 
-import static forpleuvoir.dhwu1a.core.Dhwu1a.bot;
 import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
 /**

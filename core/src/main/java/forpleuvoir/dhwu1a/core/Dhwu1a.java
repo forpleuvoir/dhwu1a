@@ -4,7 +4,9 @@ import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
 import forpleuvoir.dhwu1a.core.config.LogConfig;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 
-import java.net.URISyntaxException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 
 /**
  * 程序入口
@@ -16,28 +18,81 @@ import java.net.URISyntaxException;
  * <p>#create_time 2021/6/28 20:28
  */
 public class Dhwu1a {
-    public static LogConfig LOG_CONFIG = new LogConfig();
-    public static Bot bot;
-    public static boolean running;
+    private static Dhwu1a INSTANCE;
 
-    public Dhwu1a(Dhwu1aConfig config) {
-        Thread.currentThread().setName("dhwu1a");
-        LOG_CONFIG = config.logConfig;
-        bot = new Bot(config);
+    public final LogConfig logConfig;
+    public Bot bot;
+    private boolean running;
+    private final Dhwu1aConfig config;
+
+    private List<Consumer<Dhwu1a>> onStart = new CopyOnWriteArrayList<>();
+    private List<Consumer<Dhwu1a>> onClose = new CopyOnWriteArrayList<>();
+    private List<Consumer<Dhwu1a>> onRestart = new CopyOnWriteArrayList<>();
+
+
+    public static Dhwu1a getInstance() {
+        return INSTANCE;
     }
 
-    public void start() throws URISyntaxException {
-        bot.initialize();
+    public static void initialize(Dhwu1aConfig config) {
+        if (INSTANCE == null) {
+            INSTANCE = new Dhwu1a(config);
+        }
+    }
+
+    private Dhwu1a(Dhwu1aConfig config) {
+        Thread.currentThread().setName("dhwu1a");
+        this.logConfig = config.logConfig;
+        this.config = config;
+    }
+
+    public void start() {
+        Bot.initialize(config);
+        this.bot = Bot.getInstance();
         running = true;
+        onStart();
+    }
+
+    private void onStart() {
+        onStart.forEach(onStartConsumer -> onStartConsumer.accept(this));
+    }
+
+    public void reStart() {
+        start();
+        onRestart();
+    }
+
+    private void onRestart(){
+        onRestart.forEach(onRestartConsumer -> onRestartConsumer.accept(this));
     }
 
     public void close() {
         bot.close();
+        bot = null;
         running = false;
+        onClose();
     }
 
-    public static Bot getBot() {
+    private void onClose(){
+        onClose.forEach(onCloseConsumer -> onCloseConsumer.accept(this));
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public Bot getBot() {
         return bot;
     }
 
+
+    public void addOnStartListener(Consumer<Dhwu1a> consumer){
+        onStart.add(consumer);
+    }
+    public void addOnRestartListener(Consumer<Dhwu1a> consumer){
+        onRestart.add(consumer);
+    }
+    public void addOnCloseListener(Consumer<Dhwu1a> consumer){
+        onClose.add(consumer);
+    }
 }

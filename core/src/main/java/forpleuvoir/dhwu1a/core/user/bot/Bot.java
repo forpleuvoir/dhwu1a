@@ -35,6 +35,19 @@ import static forpleuvoir.dhwu1a.core.common.ApiKey.TARGET;
  */
 public class Bot implements IJsonData {
     private transient static final Dhwu1aLog log = new Dhwu1aLog(Bot.class);
+    private static Bot INSTANCE;
+
+    public static void initialize(Dhwu1aConfig config) {
+        if (INSTANCE == null) {
+            INSTANCE = new Bot(config);
+            INSTANCE.init();
+        }
+    }
+
+    public static Bot getInstance() {
+        return INSTANCE;
+    }
+
     /**
      * Bot的QQ号
      */
@@ -60,13 +73,13 @@ public class Bot implements IJsonData {
      */
     private final ConcurrentLinkedDeque<Group> groups = new ConcurrentLinkedDeque<>();
 
-    public Bot(Dhwu1aConfig config) {
+    private Bot(Dhwu1aConfig config) {
         this.id = config.botId;
         this.messageWSC = MessageWSC.getInstance(this, config.ip, config.port, config.verifyKey);
         this.eventWSC = EventWSC.getInstance(this, config.ip, config.port, config.verifyKey);
     }
 
-    public void initialize() {
+    private void init() {
         this.eventWSC.connect();
         try {
             this.messageWSC.connectBlocking();
@@ -114,14 +127,14 @@ public class Bot implements IJsonData {
      */
     public void recall(Integer messageId) {
         sendCommand(new CommandSender(Command.recall, Map.of(TARGET, messageId)),
-                    null
+                null
         );
     }
 
     public void syncProfile() {
         log.info("同步Bot资料");
         sendCommand(new CommandSender(Command.botProfile),
-                    data -> this.profile = JsonUtil.gson.fromJson(data, Profile.class)
+                data -> this.profile = JsonUtil.gson.fromJson(data, Profile.class)
         );
     }
 

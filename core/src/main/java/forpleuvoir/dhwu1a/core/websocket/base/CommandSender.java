@@ -51,7 +51,7 @@ public class CommandSender {
         this.content = content;
     }
 
-    public CommandSender() {
+    private CommandSender() {
         this.sendId = SYNC_ID.get();
         SYNC_ID.set(SYNC_ID.get() + 1);
         if (SYNC_ID.get() == 9999) {

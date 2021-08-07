@@ -1,9 +1,11 @@
 package forpleuvoir.dhwu1a.core.message.base;
 
+import forpleuvoir.dhwu1a.core.Dhwu1a;
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem;
 import forpleuvoir.dhwu1a.core.user.Group;
 import forpleuvoir.dhwu1a.core.user.Member;
 import forpleuvoir.dhwu1a.core.user.base.User;
+import forpleuvoir.dhwu1a.core.user.bot.Bot;
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.websocket.base.CommandSender;
@@ -16,7 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static forpleuvoir.dhwu1a.core.Dhwu1a.bot;
 import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
 
 /**
@@ -29,6 +30,8 @@ import static forpleuvoir.dhwu1a.core.common.ApiKey.*;
  * <p>#create_time 2021/7/4 15:48
  */
 public class MessageSenderObject {
+
+    private final Bot bot = Dhwu1a.getInstance().getBot();
     /**
      * 指令
      */
@@ -61,13 +64,12 @@ public class MessageSenderObject {
 
     public void sendMessage(List<MessageItem> messageChain, @Nullable Consumer<Integer> messageId) {
         params.put(MESSAGE_CHAIN, messageChain);
-        bot.sendCommand(new CommandSender(command, params), data -> {
-            Optional.ofNullable(JsonUtil.ifHasKey(data, MESSAGE_ID)).ifPresent(id -> {
-                log.info("SM/Bot.{}: {} << {}", bot.id, logFormat, Message.toPlainText(messageChain));
-                if (messageId != null)
-                    messageId.accept(id.getAsInt());
-            });
-        });
+        bot.sendCommand(new CommandSender(command, params), data ->
+                Optional.ofNullable(JsonUtil.ifHasKey(data, MESSAGE_ID)).ifPresent(id -> {
+                    log.info("SM/Bot.{}: {} << {}", bot.id, logFormat, Message.toPlainText(messageChain));
+                    if (messageId != null)
+                        messageId.accept(id.getAsInt());
+                }));
     }
 
     public MessageSenderObject isQuoted(Integer id) {

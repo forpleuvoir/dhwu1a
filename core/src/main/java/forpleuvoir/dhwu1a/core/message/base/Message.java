@@ -30,7 +30,7 @@ public abstract class Message implements IMessage {
     /**
      * 接收消息的Bot
      */
-    public transient final Bot bot = Dhwu1a.bot;
+    public transient final Bot bot = Dhwu1a.getInstance().getBot();
     /**
      * 消息类型
      */
@@ -75,6 +75,10 @@ public abstract class Message implements IMessage {
         this.log = new Dhwu1aLog(this.getClass());
         this.sender = MessageSender.parse(type, object.get(SENDER).getAsJsonObject());
         this.messageChain = MessageItem.parse(object.getAsJsonArray(MESSAGE_CHAIN));
+    }
+
+    public List<MessageItem> getMessageChain() {
+        return messageChain;
     }
 
     @Override

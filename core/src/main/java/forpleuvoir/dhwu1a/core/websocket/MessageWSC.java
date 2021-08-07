@@ -36,18 +36,18 @@ public class MessageWSC extends Dhwu1aWebSocketClient {
         try {
             return new MessageWSC(bot, ip, port, verifyKey);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }
 
     public MessageWSC(Bot bot, String ip, int port, String verifyKey) throws URISyntaxException {
         super(String.format("%s/%s?%s=%s&%s=%d",
-                            URLUtils.getWSURL(ip, port),
-                            MESSAGE,
-                            VERIFY_KEY, verifyKey,
-                            QQ, bot.id
-              ), bot, MESSAGE
+                URLUtils.getWSURL(ip, port),
+                MESSAGE,
+                VERIFY_KEY, verifyKey,
+                QQ, bot.id
+                ), bot, MESSAGE
         );
     }
 
@@ -67,8 +67,8 @@ public class MessageWSC extends Dhwu1aWebSocketClient {
                 Message message = Message.parse(getData.data);
                 Optional.ofNullable(message)
                         .ifPresent(message1 ->
-                                           EventBus.broadcast(MessageEvent.parse(message1)
-                                           )
+                                EventBus.broadcast(MessageEvent.parse(message1)
+                                )
                         );
             } else {
                 if (callbacks.containsKey(getData.syncId)) {
