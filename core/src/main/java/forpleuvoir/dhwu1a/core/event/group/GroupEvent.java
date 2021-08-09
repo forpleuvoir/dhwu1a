@@ -8,6 +8,7 @@ import forpleuvoir.dhwu1a.core.event.base.Dhwu1aEvent;
 import forpleuvoir.dhwu1a.core.user.Group;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.util.ReflectionUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -45,7 +46,7 @@ public abstract class GroupEvent extends Dhwu1aEvent {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void broadcastHandle(
-            ImmutableMap<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? extends Dhwu1aEvent>>> eventListeners
+            @NotNull ImmutableMap<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? super Dhwu1aEvent>>> eventListeners
     ) {
         super.broadcastHandle(eventListeners);
         if (ReflectionUtil.isExtended(this.getClass(), GroupEvent.class)) {

@@ -1,7 +1,7 @@
 package forpleuvoir.dhwu1a.core.util;
 
-import forpleuvoir.dhwu1a.config.LogConfig;
 import forpleuvoir.dhwu1a.core.Dhwu1a;
+import forpleuvoir.dhwu1a.core.config.LogConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

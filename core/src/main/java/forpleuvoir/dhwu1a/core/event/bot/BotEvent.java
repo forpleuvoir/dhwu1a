@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import forpleuvoir.dhwu1a.core.event.base.Dhwu1aEvent;
 import forpleuvoir.dhwu1a.core.util.JsonUtil;
 import forpleuvoir.dhwu1a.core.util.ReflectionUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -40,7 +41,7 @@ public abstract class BotEvent extends Dhwu1aEvent {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void broadcastHandle(
-            ImmutableMap<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? extends Dhwu1aEvent>>> eventListeners
+            @NotNull ImmutableMap<Class<? extends Dhwu1aEvent>, ImmutableList<Consumer<? super Dhwu1aEvent>>> eventListeners
     ) {
         super.broadcastHandle(eventListeners);
         if (ReflectionUtil.isExtended(this.getClass(), BotEvent.class)) {

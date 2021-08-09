@@ -1,7 +1,7 @@
 package forpleuvoir.dhwu1a.core;
 
-import forpleuvoir.dhwu1a.config.Dhwu1aConfig;
-import forpleuvoir.dhwu1a.config.LogConfig;
+import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
+import forpleuvoir.dhwu1a.core.config.LogConfig;
 import forpleuvoir.dhwu1a.core.event.base.EventBus;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 
@@ -49,7 +49,7 @@ public class Dhwu1a {
     }
 
     public void start() {
-        this.eventBus = EventBus.getInstance();
+        this.eventBus = EventBus.Companion.getInstance();
         Bot.initialize(config);
         this.bot = Bot.getInstance();
         running = true;

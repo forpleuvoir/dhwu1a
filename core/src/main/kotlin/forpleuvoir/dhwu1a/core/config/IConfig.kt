@@ -1,4 +1,4 @@
-package forpleuvoir.dhwu1a.config
+package forpleuvoir.dhwu1a.core.config
 
 import com.google.gson.JsonElement
 import forpleuvoir.dhwu1a.core.util.JsonUtil
@@ -7,7 +7,7 @@ import forpleuvoir.dhwu1a.core.util.JsonUtil
  * 配置接口
  * @author forpleuvoir
  * <p>#project_name dhwu1a
- * <p>#package forpleuvoir.dhwu1a.config
+ * <p>#package forpleuvoir.dhwu1a.core.config
  * <p>#class_name IConfig
  * <p>#create_time 2021/8/9 23:44
  */

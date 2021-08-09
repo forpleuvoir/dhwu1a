@@ -1,4 +1,4 @@
-package forpleuvoir.dhwu1a.config
+package forpleuvoir.dhwu1a.core.config
 
 import com.google.gson.annotations.SerializedName
 import forpleuvoir.dhwu1a.core.common.IJsonData

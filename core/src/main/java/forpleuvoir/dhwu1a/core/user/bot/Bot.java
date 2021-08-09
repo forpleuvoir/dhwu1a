@@ -2,10 +2,10 @@ package forpleuvoir.dhwu1a.core.user.bot;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import forpleuvoir.dhwu1a.config.Dhwu1aConfig;
 import forpleuvoir.dhwu1a.core.common.IJsonData;
 import forpleuvoir.dhwu1a.core.common.data.FriendData;
 import forpleuvoir.dhwu1a.core.common.data.GroupData;
+import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
 import forpleuvoir.dhwu1a.core.user.Friend;
 import forpleuvoir.dhwu1a.core.user.Group;
 import forpleuvoir.dhwu1a.core.user.base.Profile;
