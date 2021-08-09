@@ -67,4 +67,9 @@ public abstract class MessageEvent<M extends Message> extends Dhwu1aEvent {
     public String toPlainText() {
         return String.format("%s[%s]", message.type, message.toPlainText());
     }
+
+    @Override
+    public String toString() {
+        return toPlainText();
+    }
 }

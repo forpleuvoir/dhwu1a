@@ -42,11 +42,11 @@ public class MessageWSC extends Dhwu1aWebSocketClient {
 
     public MessageWSC(Bot bot, String ip, int port, String verifyKey) throws URISyntaxException {
         super(String.format("%s/%s?%s=%s&%s=%d",
-                URLUtils.getWSURL(ip, port),
-                MESSAGE,
-                VERIFY_KEY, verifyKey,
-                QQ, bot.id
-                ), bot, MESSAGE
+                            URLUtils.getWSUrl(ip, port),
+                            MESSAGE,
+                            VERIFY_KEY, verifyKey,
+                            QQ, bot.id
+              ), bot, MESSAGE
         );
     }
 

@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 import static forpleuvoir.dhwu1a.core.common.ApiKey.DATA;
 import static forpleuvoir.dhwu1a.core.common.ApiKey.TARGET;
-import static forpleuvoir.dhwu1a.core.common.data.UserData.bot;
 
 /**
  * @author forpleuvoir

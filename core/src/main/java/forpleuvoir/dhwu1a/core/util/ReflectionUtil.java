@@ -77,13 +77,13 @@ public class ReflectionUtil {
      * @return 父类中
      */
     public static Field getDeclaredField(Object object, String fieldName) {
-        Field field = null;
+        Field field;
         Class<?> clazz = object.getClass();
         for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
             try {
                 field = clazz.getDeclaredField(fieldName);
                 return field;
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
         return null;

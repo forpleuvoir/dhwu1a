@@ -42,7 +42,7 @@ public abstract class Message implements IMessage {
     /**
      * 消息链
      */
-    protected List<MessageItem> messageChain;
+    protected final List<MessageItem> messageChain;
 
     @Nullable
     public static Message parse(JsonObject object) {

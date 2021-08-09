@@ -1,7 +1,7 @@
 package forpleuvoir.dhwu1a.core;
 
-import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
-import forpleuvoir.dhwu1a.core.config.LogConfig;
+import forpleuvoir.dhwu1a.config.Dhwu1aConfig;
+import forpleuvoir.dhwu1a.config.LogConfig;
 import forpleuvoir.dhwu1a.core.event.base.EventBus;
 import forpleuvoir.dhwu1a.core.user.bot.Bot;
 
@@ -44,7 +44,7 @@ public class Dhwu1a {
 
     private Dhwu1a(Dhwu1aConfig config) {
         Thread.currentThread().setName("dhwu1a");
-        this.logConfig = config.logConfig;
+        this.logConfig = config.getLogConfig();
         this.config = config;
     }
 

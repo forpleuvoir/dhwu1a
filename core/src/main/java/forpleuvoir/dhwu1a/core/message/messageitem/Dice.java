@@ -20,7 +20,7 @@ public class Dice extends MessageItem {
      * 点数
      */
     @SerializedName(VALUE)
-    public Integer value;
+    public final Integer value;
 
     public Dice(Integer value) {
         super(MessageItemType.Dice);

@@ -11,7 +11,7 @@ package forpleuvoir.dhwu1a.core.util;
  * <p>#create_time 2021/6/28 21:32
  */
 public class URLUtils {
-    public static String getWSURL(String ip,int port){
-       return String.format("ws://%s:%d",ip,port);
+    public static String getWSUrl(String ip, int port) {
+        return String.format("ws://%s:%d", ip, port);
     }
 }

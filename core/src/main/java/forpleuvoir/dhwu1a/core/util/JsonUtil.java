@@ -16,7 +16,7 @@ import java.util.Collection;
  * <p>#create_time 2020/11/10 21:46
  */
 public class JsonUtil {
-    public static Gson gson;
+    public static final Gson gson;
 
     static {
         GsonBuilder builder = new GsonBuilder();

@@ -45,11 +45,11 @@ public class EventWSC extends Dhwu1aWebSocketClient {
 
     public EventWSC(Bot bot, String ip, int port, String verifyKey) throws URISyntaxException {
         super(String.format("%s/%s?%s=%s&%s=%d",
-                URLUtils.getWSURL(ip, port),
-                EVENT,
-                VERIFY_KEY, verifyKey,
-                QQ, bot.id
-                ), bot, EVENT
+                            URLUtils.getWSUrl(ip, port),
+                            EVENT,
+                            VERIFY_KEY, verifyKey,
+                            QQ, bot.id
+              ), bot, EVENT
         );
     }
 

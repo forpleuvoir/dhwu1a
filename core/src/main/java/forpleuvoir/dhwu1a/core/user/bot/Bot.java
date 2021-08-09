@@ -2,10 +2,10 @@ package forpleuvoir.dhwu1a.core.user.bot;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import forpleuvoir.dhwu1a.config.Dhwu1aConfig;
 import forpleuvoir.dhwu1a.core.common.IJsonData;
 import forpleuvoir.dhwu1a.core.common.data.FriendData;
 import forpleuvoir.dhwu1a.core.common.data.GroupData;
-import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig;
 import forpleuvoir.dhwu1a.core.user.Friend;
 import forpleuvoir.dhwu1a.core.user.Group;
 import forpleuvoir.dhwu1a.core.user.base.Profile;
@@ -74,9 +74,9 @@ public class Bot implements IJsonData {
     private final ConcurrentLinkedDeque<Group> groups = new ConcurrentLinkedDeque<>();
 
     private Bot(Dhwu1aConfig config) {
-        this.id = config.botId;
-        this.messageWSC = MessageWSC.getInstance(this, config.ip, config.port, config.verifyKey);
-        this.eventWSC = EventWSC.getInstance(this, config.ip, config.port, config.verifyKey);
+        this.id = config.getBotId();
+        this.messageWSC = MessageWSC.getInstance(this, config.getIp(), config.getPort(), config.getVerifyKey());
+        this.eventWSC = EventWSC.getInstance(this, config.getIp(), config.getPort(), config.getVerifyKey());
     }
 
     private void init() {
@@ -127,14 +127,14 @@ public class Bot implements IJsonData {
      */
     public void recall(Integer messageId) {
         sendCommand(new CommandSender(Command.recall, Map.of(TARGET, messageId)),
-                null
+                    null
         );
     }
 
     public void syncProfile() {
         log.info("同步Bot资料");
         sendCommand(new CommandSender(Command.botProfile),
-                data -> this.profile = JsonUtil.gson.fromJson(data, Profile.class)
+                    data -> this.profile = JsonUtil.gson.fromJson(data, Profile.class)
         );
     }
 
