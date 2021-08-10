@@ -1,5 +1,6 @@
 package forpleuvoir.dhwu1a.core.config
 
+import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 import forpleuvoir.dhwu1a.core.common.IJsonData
 
@@ -14,15 +15,31 @@ import forpleuvoir.dhwu1a.core.common.IJsonData
  *
  * #create_time 2021/6/29 23:33
  */
-class LogConfig(
+class LogConfig : IJsonData, IConfig {
     @SerializedName("info")
-    var info: Boolean,
+    var info: Boolean = true
+        private set
+
     @SerializedName("debug")
-    var debug: Boolean,
+    var debug: Boolean = true
+        private set
+
     @SerializedName("error")
-    var error: Boolean,
+    var error: Boolean = true
+        private set
+
     @SerializedName("warn")
-    var warn: Boolean
-) : IJsonData, IConfig {
-    constructor() : this(true, true, true, true)
+    var warn: Boolean = true
+        private set
+
+    override fun fromJson(jsonElement: JsonElement): LogConfig {
+        if (jsonElement.isJsonObject) {
+            val json = jsonElement.asJsonObject
+            info = json.get("info").asBoolean
+            debug = json.get("debug").asBoolean
+            error = json.get("error").asBoolean
+            warn = json.get("warn").asBoolean
+        }
+        return this
+    }
 }

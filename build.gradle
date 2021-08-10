@@ -19,6 +19,8 @@ subprojects {
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt'
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
         implementation group: 'com.google.code.gson', name: 'gson', version: "${project.gson_version}"
         implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: "${project.java_websocket_version}"
         implementation group: 'com.google.guava', name: 'guava', version: "${project.guava_version}"
@@ -41,6 +43,11 @@ subprojects {
             title "Dhwuia"
         }
     }
+
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
 }
 buildscript {
     ext.kotlin_version = '1.5.10'
@@ -51,11 +58,14 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
+
 repositories {
     mavenCentral()
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt'
 }
 compileKotlin {
     kotlinOptions {

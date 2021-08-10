@@ -12,6 +12,14 @@ import forpleuvoir.dhwu1a.core.util.JsonUtil
  * <p>#create_time 2021/8/9 23:44
  */
 interface IConfig {
+
+    /**
+     * 从JsonElement中读取数据
+     * @param jsonElement JsonElement
+     *
+     */
+    fun fromJson(jsonElement: JsonElement): IConfig
+
     /**
      * 将数据写入JsonElement
      * @return JsonElement

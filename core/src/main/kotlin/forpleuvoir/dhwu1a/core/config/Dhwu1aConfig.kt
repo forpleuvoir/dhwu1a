@@ -1,5 +1,6 @@
 package forpleuvoir.dhwu1a.core.config
 
+import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 import forpleuvoir.dhwu1a.core.common.IJsonData
 
@@ -15,17 +16,39 @@ import forpleuvoir.dhwu1a.core.common.IJsonData
  *
  * #create_time 2021/8/9 23:34
  */
-class Dhwu1aConfig(
+class Dhwu1aConfig(botId: Long, ip: String, port: Int, verifyKey: String, logConfig: LogConfig) : IJsonData, IConfig {
+
     @SerializedName("botId")
-    val botId: Long,
+    var botId: Long = botId
+        private set
+
     @SerializedName("ip")
-    val ip: String,
+    var ip: String = ip
+        private set
+
     @SerializedName("port")
-    val port: Int,
+    var port: Int = port
+        private set
+
     @SerializedName("verifyKey")
-    val verifyKey: String,
+    var verifyKey: String = verifyKey
+        private set
+
     @SerializedName("logConfig")
-    val logConfig: LogConfig
-) : IJsonData, IConfig {
+    var logConfig: LogConfig = logConfig
+        private set
+
+
+    override fun fromJson(jsonElement: JsonElement): Dhwu1aConfig {
+        if (jsonElement.isJsonObject) {
+            val json = jsonElement.asJsonObject
+            botId = json.get("botId").asLong
+            ip = json.get("ip").asString
+            port = json.get("port").asInt
+            verifyKey = json.get("verifyKey").asString
+            logConfig = LogConfig().fromJson(json.get("logConfig"))
+        }
+        return this
+    }
 
 }

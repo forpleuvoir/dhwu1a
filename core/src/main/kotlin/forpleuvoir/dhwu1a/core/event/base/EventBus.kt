@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableMap
 import forpleuvoir.dhwu1a.core.event.base.annotation.EventHandlerParser
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
+import org.java_websocket.util.NamedThreadFactory
 import org.jetbrains.annotations.NotNull
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -25,6 +26,7 @@ import java.util.function.Consumer
  * #create_time 2021/8/10 0:37
  */
 class EventBus private constructor() {
+
     companion object {
         private var eventBus: EventBus? = null
             get() {
@@ -92,6 +94,10 @@ class EventBus private constructor() {
             builder.put(k, listBuilder.build())
         }
         return builder.build()
+    }
+
+    init {
+        executor.threadFactory = NamedThreadFactory("event bus")
     }
 
 

@@ -6,6 +6,11 @@ plugins {
 group = project.core_group as Object
 version = project.dhwu1a_version as Object
 
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
 sourceSets {
     main {
         java {
@@ -49,7 +54,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
 }
 compileKotlin {
     kotlinOptions {

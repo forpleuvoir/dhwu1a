@@ -33,19 +33,19 @@ abstract class Dhwu1aEvent : IPlainText, IJsonData, IEventBroadcastHandler {
      */
     @JvmField
     @Transient
-    val bot: Bot = Dhwu1a.getInstance().getBot()
+    val bot: Bot? = Dhwu1a.instance!!.bot
 
     /**
      * 所有非new实例化的事件必须调用此方法才能获取Bot以及log
      */
     fun initialize(): Dhwu1aEvent {
         ReflectionUtil.setFieldValue("log", this, Dhwu1aLog(this.javaClass))
-        ReflectionUtil.setFieldValue("bot", this, Dhwu1a.getInstance().getBot())
+        ReflectionUtil.setFieldValue("bot", this, Dhwu1a.instance!!.bot)
         return this
     }
 
     open fun printEventLog() {
-        log.info("E/Bot.{}: {}", bot.id, toPlainText())
+        log.info("E/Bot.{}: {}", bot!!.id, toPlainText())
     }
 
     override fun broadcastHandle(eventListeners: ImmutableMap<Class<out Dhwu1aEvent>, ImmutableList<Consumer<in Dhwu1aEvent>>>) {
