@@ -16,8 +16,8 @@ import forpleuvoir.dhwu1a.core.user.base.User
  *
  * #create_time 2021/7/4 12:05
  */
-class OtherClientMessageEvent(message: OtherClientMessage?) : MessageEvent<OtherClientMessage?>(message) {
-    override fun getUser(): User? {
-        return null
-    }
+class OtherClientMessageEvent(message: OtherClientMessage) : MessageEvent<OtherClientMessage>(message) {
+
+    override val user: User?
+        get() = null
 }

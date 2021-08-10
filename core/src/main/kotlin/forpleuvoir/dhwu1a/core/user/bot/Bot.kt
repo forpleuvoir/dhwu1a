@@ -130,12 +130,12 @@ class Bot private constructor(config: Dhwu1aConfig) : IJsonData {
         messageWSC?.sendMessage(sender, consumer)
     }
 
-    fun getFriend(id: Long?): Friend? {
+    fun getFriend(id: Long): Friend? {
         return friends.stream().filter { friend: Friend -> friend.id == id }.findFirst()
             .orElse(null)
     }
 
-    fun getGroup(id: Long?): Group? {
+    fun getGroup(id: Long): Group? {
         return groups.stream().filter { group: Group -> group.id == id }.findFirst().orElse(null)
     }
 

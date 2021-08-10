@@ -1,4 +1,4 @@
-package forpleuvoir.dhwu1a.core.event
+package forpleuvoir.dhwu1a.core.event.message
 
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName

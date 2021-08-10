@@ -57,7 +57,7 @@ class MessageWSC(bot: Bot, ip: String?, port: Int, verifyKey: String?) : Dhwu1aW
                 Optional.ofNullable(message)
                     .ifPresent { message1: Message? ->
                         eventBus.broadcast(
-                            MessageEvent.parse(message1)
+                            MessageEvent.parse(message1!!)
                         )
                     }
             } else {

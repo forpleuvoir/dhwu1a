@@ -26,17 +26,21 @@ abstract class User protected constructor(
      */
     @field:SerializedName(ID) val id: Long
 ) : IUser {
-    val bot: Bot? = Dhwu1a.instance!!.bot
+    val bot: Bot = Dhwu1a.instance!!.bot!!
     override fun sendMessage(@Nonnull messageChain: List<MessageItem>) {
         messageSenderObject().sendMessage(messageChain, null)
     }
 
-    override fun sendMessage(messageId: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>) {
-        messageSenderObject().sendMessage(messageChain, messageId)
+    override fun sendMessage(messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>) {
+        messageSenderObject().sendMessage(messageChain) {
+            messageIdConsumer?.accept(it)
+        }
     }
 
-    override fun quote(quoteId: Int?, messageId: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>) {
-        messageSenderObject().isQuoted(quoteId).sendMessage(messageChain, messageId)
+    override fun quote(quoteId: Int, messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>) {
+        messageSenderObject().isQuoted(quoteId).sendMessage(messageChain) {
+            messageIdConsumer?.accept(it)
+        }
     }
 
     abstract fun messageSenderObject(): MessageSenderObject

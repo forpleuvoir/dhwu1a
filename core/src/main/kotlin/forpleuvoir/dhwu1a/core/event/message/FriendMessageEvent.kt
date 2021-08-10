@@ -17,14 +17,14 @@ import forpleuvoir.dhwu1a.core.user.base.User
  *
  * #create_time 2021/7/4 11:46
  */
-class FriendMessageEvent(message: FriendMessage) : MessageEvent<FriendMessage?>(message) {
+class FriendMessageEvent(message: FriendMessage) : MessageEvent<FriendMessage>(message) {
     /**
      * 事件相关好友
      */
     val friend: Friend?
-    override fun getUser(): User? {
-        return friend
-    }
+
+    override val user: User?
+        get() = friend
 
     init {
         friend = message.friend

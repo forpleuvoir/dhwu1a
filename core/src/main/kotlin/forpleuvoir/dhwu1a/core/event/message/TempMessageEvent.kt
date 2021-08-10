@@ -3,6 +3,7 @@ package forpleuvoir.dhwu1a.core.event.message
 import forpleuvoir.dhwu1a.core.message.TempMessage
 import forpleuvoir.dhwu1a.core.user.Group
 import forpleuvoir.dhwu1a.core.user.Member
+import forpleuvoir.dhwu1a.core.user.base.User
 
 /**
  * 临时消息事件
@@ -17,7 +18,7 @@ import forpleuvoir.dhwu1a.core.user.Member
  *
  * #create_time 2021/7/4 11:59
  */
-class TempMessageEvent(message: TempMessage) : MessageEvent<TempMessage?>(message) {
+class TempMessageEvent(message: TempMessage) : MessageEvent<TempMessage>(message) {
     /**
      * 事件相关群
      */
@@ -27,9 +28,8 @@ class TempMessageEvent(message: TempMessage) : MessageEvent<TempMessage?>(messag
      * 事件相关群员
      */
     val member: Member?
-    override fun getUser(): Member? {
-        return message!!.member
-    }
+    override val user: User?
+        get() = message.member
 
     init {
         member = message.member

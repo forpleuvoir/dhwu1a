@@ -23,6 +23,6 @@ open class FriendMessageSender protected constructor(id: Long) : MessageSender(i
 
     @SerializedName(REMARK)
     var remark: String? = null
-    override val user: Friend?
-        get() = bot.getFriend(this.id)
+    override val user: Friend
+        get() = bot.getFriend(this.id)!!
 }

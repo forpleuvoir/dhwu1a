@@ -13,7 +13,6 @@ import forpleuvoir.dhwu1a.core.util.JsonUtil
 import forpleuvoir.dhwu1a.core.websocket.base.CommandSender
 import forpleuvoir.dhwu1a.core.websocket.command.Command
 import java.util.concurrent.ConcurrentLinkedDeque
-import java.util.function.Consumer
 
 /**
  * @author forpleuvoir
@@ -35,18 +34,18 @@ class Group(groupData: GroupData) : User(groupData.id) {
     private val members: ConcurrentLinkedDeque<Member> = ConcurrentLinkedDeque<Member>()
     fun syncMember() {
         log.info("({})同步群员列表", data.name)
-        bot?.sendCommand(
+        bot.sendCommand(
             CommandSender(
                 Command.MemberList,
                 mapOf(TARGET to id)
             )
         ) { data: JsonObject ->
-            if (data.get(DATA).isJsonArray) {
+            if (data[DATA].isJsonArray) {
                 members.clear()
-                data.get(DATA).asJsonArray.forEach(Consumer { element: JsonElement? ->
-                    val memberData = JsonUtil.gson.fromJson<MemberData>(element, MemberData::class.java)
+                data[DATA].asJsonArray.forEach { element: JsonElement? ->
+                    val memberData = JsonUtil.gson.fromJson(element, MemberData::class.java)
                     members.add(Member(this, memberData))
-                })
+                }
             }
         }
     }

@@ -48,13 +48,13 @@ class MemberData(
      */
     @field:SerializedName(GROUP) val group: GroupData
 ) : UserData<Member?>(id!!) {
-    fun getGroup(): Group? {
+    fun getGroup(): Group {
         return group.user
     }
 
     override val user: Member?
         get() = try {
-            group.user!!.getMember(id)
+            group.user.getMember(id)
         } catch (ignored: Exception) {
             null
         }

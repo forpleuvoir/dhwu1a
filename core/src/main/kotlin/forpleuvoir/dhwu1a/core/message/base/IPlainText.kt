@@ -12,5 +12,5 @@ package forpleuvoir.dhwu1a.core.message.base
  * #create_time 2021/6/29 22:12
  */
 interface IPlainText {
-    fun toPlainText(): String?
+    fun toPlainText(): String
 }

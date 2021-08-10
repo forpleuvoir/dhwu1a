@@ -1,8 +1,8 @@
 package forpleuvoir.dhwu1a.core.util
 
 import com.google.gson.*
-import forpleuvoir.dhwu1a.core.message.messageitem.Forward.NodeItem
-import forpleuvoir.dhwu1a.core.message.messageitem.Forward.NodeItemAdapter
+import forpleuvoir.dhwu1a.core.message.messageitem.NodeItem
+import forpleuvoir.dhwu1a.core.message.messageitem.NodeItemAdapter
 
 /**
  * json工具类

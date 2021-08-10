@@ -111,7 +111,7 @@ abstract class Message(
         quote(messageIdConsumer, listOf(*messageChain))
     }
 
-    override fun toPlainText(): String? {
+    override fun toPlainText(): String {
         val stringBuilder = StringBuilder()
         messageChain.stream()
             .filter { it?.type != MessageItemType.Source }

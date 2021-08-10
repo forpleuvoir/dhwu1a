@@ -17,18 +17,18 @@ import javax.annotation.Nonnull
  * #create_time 2021/6/29 22:31
  */
 interface IUser : IJsonData {
-    fun sendMessage(messageId: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>)
+    fun sendMessage(messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>)
     fun sendMessage(@Nonnull messageChain: List<MessageItem>)
     fun sendMessage(@Nonnull vararg messageChain: MessageItem) {
         sendMessage(listOf(*messageChain))
     }
 
-    fun sendMessage(messageId: Consumer<Int?>?, @Nonnull vararg messageChain: MessageItem) {
-        sendMessage(messageId, listOf(*messageChain))
+    fun sendMessage(messageIdConsumer: Consumer<Int?>?, @Nonnull vararg messageChain: MessageItem) {
+        sendMessage(messageIdConsumer, listOf(*messageChain))
     }
 
-    fun quote(quoteId: Int?, messageId: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>)
-    fun quote(quoteId: Int?, messageId: Consumer<Int?>?, @Nonnull vararg messageChain: MessageItem) {
-        quote(quoteId, messageId, listOf(*messageChain))
+    fun quote(quoteId: Int, messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>)
+    fun quote(quoteId: Int, messageIdConsumer: Consumer<Int?>?, @Nonnull vararg messageChain: MessageItem) {
+        quote(quoteId, messageIdConsumer, listOf(*messageChain))
     }
 }

@@ -47,7 +47,7 @@ class Member(
         private set
 
     fun getProfile(consumer: Consumer<Profile?>?) {
-        bot?.sendCommand(
+        bot.sendCommand(
             CommandSender(Command.MemberList, mapOf(TARGET to group.id, MEMBER_ID to id))
         ) { data: JsonObject? ->
             profile = JsonUtil.gson.fromJson(data, Profile::class.java)
@@ -56,7 +56,7 @@ class Member(
     }
 
     fun nudge() {
-        bot?.sendCommand(
+        bot.sendCommand(
             CommandSender(
                 Command.SendNudge,
                 mapOf(TARGET to id, SUBJECT to group.id, KIND to Subject.SubjectType.Group)

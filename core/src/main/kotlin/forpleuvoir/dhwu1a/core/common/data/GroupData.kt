@@ -27,9 +27,9 @@ class GroupData(
      * Bot在群里的权限
      */
     @field:SerializedName(PERMISSION) val permission: Permission
-) : UserData<Group?>(
+) : UserData<Group>(
     id!!
 ) {
-    override val user: Group?
-        get() = bot!!.getGroup(id)
+    override val user: Group
+        get() = bot?.getGroup(id)!!
 }

@@ -23,7 +23,7 @@ class GroupMessage(`object`: JsonObject) : Message(MessageType.GroupMessage, `ob
      * 相关的群
      */
     @JvmField
-    val group: Group? = sender.user as Group?
+    val group: Group = sender.user as Group
 
     /**
      * 发送消息的群员
@@ -32,7 +32,7 @@ class GroupMessage(`object`: JsonObject) : Message(MessageType.GroupMessage, `ob
 
     override fun printMessageLog() {
         log.info(
-            "RM/Bot.{}:[{}({})] {}({}) >> {}", bot.id, group!!.data.name, group.id,
+            "RM/Bot.{}:[{}({})] {}({}) >> {}", bot.id, group.data.name, group.id,
             member!!.data.memberName,
             member!!.id, this.toPlainText()
         )

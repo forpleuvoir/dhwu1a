@@ -16,8 +16,8 @@ import forpleuvoir.dhwu1a.core.user.base.User
  *
  * #create_time 2021/7/4 12:06
  */
-class StrangerMessageEvent(message: StrangerMessage?) : MessageEvent<StrangerMessage?>(message) {
-    override fun getUser(): User? {
-        return null
-    }
+class StrangerMessageEvent(message: StrangerMessage) : MessageEvent<StrangerMessage>(message) {
+    override val user: User?
+        get() = null
+
 }

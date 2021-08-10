@@ -29,7 +29,7 @@ class Friend(
     val data: FriendData
 ) : User(data.id) {
     fun nudge() {
-        bot?.sendCommand(
+        bot.sendCommand(
             CommandSender(
                 Command.SendNudge,
                 mapOf(TARGET to id, SUBJECT to id, KIND to Subject.SubjectType.Friend)

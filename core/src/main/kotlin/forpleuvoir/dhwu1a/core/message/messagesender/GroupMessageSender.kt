@@ -21,27 +21,33 @@ import forpleuvoir.dhwu1a.core.user.base.Permission
  */
 open class GroupMessageSender protected constructor(id: Long) : MessageSender(id) {
     @SerializedName(MEMBER_NAME)
-    var memberName: String? = null
+    lateinit var memberName: String
+        private set
 
     @SerializedName(SPECIAL_TITLE)
-    var specialTitle: String? = null
+    lateinit var specialTitle: String
+        private set
 
     @SerializedName(PERMISSION)
-    var permission: Permission? = null
+    lateinit var permission: Permission
+        private set
 
     @SerializedName(JOIN_TIMESTAMP)
-    var joinTimestamp: Int? = null
+    var joinTimestamp: Int = 0
+        private set
 
     @SerializedName(LAST_SPEAK_TIMESTAMP)
-    var lastSpeakTimestamp: Int? = null
+    var lastSpeakTimestamp: Int = 0
+        private set
 
     @SerializedName(MUTE_TIME_REMAINING)
-    var muteTimeRemaining: Int? = null
+    var muteTimeRemaining: Int = 0
+        private set
 
     @SerializedName(GROUP)
-    private val group: GroupData? = null
-    override val user: Group?
-        get() = group?.user
+    private lateinit var group: GroupData
+    override val user: Group
+        get() = group.user
     val member: Member?
-        get() = if (group?.user != null) group.user?.getMember(this.id) else null
+        get() = group.user.getMember(this.id)
 }

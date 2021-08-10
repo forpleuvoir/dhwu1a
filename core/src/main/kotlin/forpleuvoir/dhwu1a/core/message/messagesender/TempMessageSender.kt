@@ -41,5 +41,5 @@ open class TempMessageSender protected constructor(id: Long) : MessageSender(id)
     @SerializedName(GROUP)
     var group: GroupData? = null
     override val user: Member?
-        get() = if (group?.user != null) group!!.user!!.getMember(this.id) else null
+        get() = if (group?.user != null) group!!.user.getMember(this.id) else null
 }

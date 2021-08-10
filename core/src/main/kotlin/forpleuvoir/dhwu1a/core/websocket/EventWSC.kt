@@ -2,7 +2,6 @@ package forpleuvoir.dhwu1a.core.websocket
 
 import com.google.gson.JsonObject
 import forpleuvoir.dhwu1a.core.common.*
-import forpleuvoir.dhwu1a.core.event.NudgeEvent
 import forpleuvoir.dhwu1a.core.event.base.Dhwu1aEvent
 import forpleuvoir.dhwu1a.core.event.bot.BotEvent
 import forpleuvoir.dhwu1a.core.event.bot.BotEventType
@@ -10,6 +9,7 @@ import forpleuvoir.dhwu1a.core.event.friend.FriendEvent
 import forpleuvoir.dhwu1a.core.event.friend.FriendEventType
 import forpleuvoir.dhwu1a.core.event.group.GroupEvent
 import forpleuvoir.dhwu1a.core.event.group.GroupEventType
+import forpleuvoir.dhwu1a.core.event.message.NudgeEvent
 import forpleuvoir.dhwu1a.core.event.request.RequestEvent
 import forpleuvoir.dhwu1a.core.event.request.RequestEventType
 import forpleuvoir.dhwu1a.core.user.bot.Bot
