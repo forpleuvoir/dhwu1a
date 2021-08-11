@@ -57,7 +57,7 @@ class OperatorData(
             return member.get()
         }
 
-    fun getGroup(): Group? {
+    fun getGroup(): Group {
         return group.user
     }
 }

@@ -21,9 +21,9 @@ class FriendMessageEvent(message: FriendMessage) : MessageEvent<FriendMessage>(m
     /**
      * 事件相关好友
      */
-    val friend: Friend?
+    val friend: Friend
 
-    override val user: User?
+    override val user: User
         get() = friend
 
     init {

@@ -1,7 +1,8 @@
 package forpleuvoir.dhwu1a.core.event.group
 
 import com.google.gson.annotations.SerializedName
-import forpleuvoir.dhwu1a.core.common.*
+import forpleuvoir.dhwu1a.core.common.DURATION_SECONDS
+import forpleuvoir.dhwu1a.core.common.OPERATOR
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
 
@@ -30,7 +31,7 @@ class BotMuteEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return operator.getGroup()
     }
 

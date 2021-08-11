@@ -28,13 +28,13 @@ class GroupMessage(`object`: JsonObject) : Message(MessageType.GroupMessage, `ob
     /**
      * 发送消息的群员
      */
-    var member: Member? = (sender as GroupMessageSender).member
+    var member: Member = (sender as GroupMessageSender).member!!
 
     override fun printMessageLog() {
         log.info(
             "RM/Bot.{}:[{}({})] {}({}) >> {}", bot.id, group.data.name, group.id,
-            member!!.data.memberName,
-            member!!.id, this.toPlainText()
+            member.data.memberName,
+            member.id, this.toPlainText()
         )
     }
 

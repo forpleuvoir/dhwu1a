@@ -2,7 +2,6 @@ package forpleuvoir.dhwu1a.core.util
 
 
 import java.lang.reflect.Field
-import java.util.*
 
 /**
  * @author forpleuvoir
@@ -52,7 +51,7 @@ object ReflectionUtil {
      */
     fun getInterfaces(clazz: Class<*>): List<Class<*>> {
         val interfaces = clazz.interfaces
-        return Arrays.asList(*interfaces)
+        return listOf(*interfaces)
     }
 
     /**

@@ -1,7 +1,10 @@
 package forpleuvoir.dhwu1a.core.event.group
 
 import com.google.gson.annotations.SerializedName
-import forpleuvoir.dhwu1a.core.common.*
+import forpleuvoir.dhwu1a.core.common.CURRENT
+import forpleuvoir.dhwu1a.core.common.GROUP
+import forpleuvoir.dhwu1a.core.common.IS_BY_BOT
+import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.user.Group
 
@@ -41,7 +44,7 @@ class GroupAllowConfessTalkEvent private constructor(
      */
     @SerializedName(IS_BY_BOT)
     val isByBot: Boolean
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return group.user
     }
 

@@ -1,9 +1,10 @@
 package forpleuvoir.dhwu1a.core.event.group
 
 import com.google.gson.annotations.SerializedName
-import forpleuvoir.dhwu1a.core.common.*
+import forpleuvoir.dhwu1a.core.common.CURRENT
 import forpleuvoir.dhwu1a.core.common.GROUP
 import forpleuvoir.dhwu1a.core.common.OPERATOR
+import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
@@ -44,14 +45,14 @@ class GroupEntranceAnnouncementChangeEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData?
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return group.user
     }
 
     override fun toPlainText(): String {
         return String.format(
             "%s[origin:%s,current:%s,group:%d,operator:%d]", type, origin, current, group.id,
-            operator?.id ?: bot!!.id
+            operator?.id ?: bot.id
         )
     }
 

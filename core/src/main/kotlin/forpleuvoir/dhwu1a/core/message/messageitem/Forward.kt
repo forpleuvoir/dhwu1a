@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference
 
  * #create_time 2021/8/10 22:53
  */
-class Forward(val nodeList: List<NodeItem>) : MessageItem(MessageItemType.Forward) {
+class Forward(@field:SerializedName(NODE_LIST) val nodeList: List<NodeItem>) : MessageItem(MessageItemType.Forward) {
 
     constructor(vararg nodeItems: NodeItem) : this(listOf(*nodeItems))
 

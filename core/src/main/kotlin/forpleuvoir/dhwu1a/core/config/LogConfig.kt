@@ -16,6 +16,10 @@ import forpleuvoir.dhwu1a.core.common.IJsonData
  * #create_time 2021/6/29 23:33
  */
 class LogConfig : IJsonData, IConfig {
+    companion object {
+        val instance: LogConfig by lazy { LogConfig() }
+    }
+
     @SerializedName("info")
     var info: Boolean = true
         private set
@@ -31,6 +35,13 @@ class LogConfig : IJsonData, IConfig {
     @SerializedName("warn")
     var warn: Boolean = true
         private set
+
+    fun copyOf(logConfig: LogConfig) {
+        this.info = logConfig.info
+        this.debug = logConfig.debug
+        this.error = logConfig.error
+        this.warn = logConfig.warn
+    }
 
     override fun fromJson(jsonElement: JsonElement): LogConfig {
         if (jsonElement.isJsonObject) {

@@ -28,17 +28,7 @@ import java.util.function.Consumer
 class EventBus private constructor() {
 
     companion object {
-        private var eventBus: EventBus? = null
-            get() {
-                if (field == null) {
-                    field = EventBus()
-                }
-                return field
-            }
-
-        fun getInstance(): EventBus {
-            return eventBus!!
-        }
+        val instance: EventBus by lazy { EventBus() }
     }
 
     @Transient

@@ -28,10 +28,10 @@ class TempMessage(`object`: JsonObject) : Message(MessageType.TempMessage, `obje
     /**
      * 相关的群
      */
-    val group: Group? = (sender as TempMessageSender).group!!.user
+    val group: Group = (sender as TempMessageSender).group!!.user
     override fun printMessageLog() {
         log.info(
-            "RM/Bot.{}:[{}({})] {}(Temp {}) >> {}", bot.id, group!!.data.name, group.id, member!!.data.memberName,
+            "RM/Bot.{}:[{}({})] {}(Temp {}) >> {}", bot.id, group.data.name, group.id, member!!.data.memberName,
             member.id, this.toPlainText()
         )
     }

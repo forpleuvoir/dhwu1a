@@ -4,8 +4,8 @@ import forpleuvoir.dhwu1a.core.Dhwu1a
 import forpleuvoir.dhwu1a.core.event.base.EventBus
 import forpleuvoir.dhwu1a.core.user.bot.Bot
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
@@ -34,7 +34,7 @@ abstract class Dhwu1aWebSocketClient(serverUri: String, protected val bot: Bot, 
     private var onWebSocketOpened: ((ServerHandshake) -> Unit)? = null
 
     @JvmField
-    protected val eventBus: EventBus = Dhwu1a.instance!!.eventBus!!
+    protected val eventBus: EventBus = Dhwu1a.instance.eventBus
 
     override fun onOpen(handshakeData: ServerHandshake) {
         Thread.currentThread().name = name
@@ -49,21 +49,34 @@ abstract class Dhwu1aWebSocketClient(serverUri: String, protected val bot: Bot, 
         onWebSocketOpened = callback
     }
 
-    override fun onClose(code: Int, reason: String, remote: Boolean) {
-        log.info("WebSocketClient {} 关闭", name)
-        if (Dhwu1a.instance!!.isRunning) {
-            runBlocking {
-                reconnect()
-            }
-        } else {
-            runBlocking { doClose() }
-        }
+    abstract fun onMessageAsync(message: String)
 
+    override fun onMessage(message: String?) {
+        runBlocking {
+            launch {
+                message?.let { onMessageAsync(message) }
+            }
+        }
     }
 
-    private suspend fun doClose(): Nothing = coroutineScope {
-        delay(5000)
-        exitProcess(0)
+    override fun onClose(code: Int, reason: String, remote: Boolean) {
+        log.info("WebSocketClient {} 关闭", name)
+        if (Dhwu1a.instance.isRunning) {
+            runBlocking {
+                launch {
+                    delay(5000)
+                    reconnect()
+                }
+            }
+        } else {
+            runBlocking {
+                launch {
+                    delay(5000)
+                    exitProcess(0)
+                }
+            }
+        }
+
     }
 
     override fun onError(ex: Exception) {

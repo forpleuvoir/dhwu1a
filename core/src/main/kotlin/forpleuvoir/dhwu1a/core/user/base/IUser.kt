@@ -2,7 +2,6 @@ package forpleuvoir.dhwu1a.core.user.base
 
 import forpleuvoir.dhwu1a.core.common.IJsonData
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem
-import java.util.function.Consumer
 import javax.annotation.Nonnull
 
 /**
@@ -17,18 +16,21 @@ import javax.annotation.Nonnull
  * #create_time 2021/6/29 22:31
  */
 interface IUser : IJsonData {
-    fun sendMessage(messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>)
+    fun sendMessage(@Nonnull messageChain: List<MessageItem>, messageIdConsumer: ((Int?) -> Unit)?)
+
     fun sendMessage(@Nonnull messageChain: List<MessageItem>)
+
     fun sendMessage(@Nonnull vararg messageChain: MessageItem) {
         sendMessage(listOf(*messageChain))
     }
 
-    fun sendMessage(messageIdConsumer: Consumer<Int?>?, @Nonnull vararg messageChain: MessageItem) {
-        sendMessage(messageIdConsumer, listOf(*messageChain))
+    fun sendMessage(@Nonnull vararg messageChain: MessageItem, messageIdConsumer: ((Int?) -> Unit)?) {
+        sendMessage(listOf(*messageChain), messageIdConsumer)
     }
 
-    fun quote(quoteId: Int, messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>)
-    fun quote(quoteId: Int, messageIdConsumer: Consumer<Int?>?, @Nonnull vararg messageChain: MessageItem) {
-        quote(quoteId, messageIdConsumer, listOf(*messageChain))
+    fun quote(quoteId: Int, @Nonnull messageChain: List<MessageItem>, messageIdConsumer: ((Int?) -> Unit)?)
+
+    fun quote(quoteId: Int, @Nonnull vararg messageChain: MessageItem, messageIdConsumer: ((Int?) -> Unit)?) {
+        quote(quoteId, listOf(*messageChain), messageIdConsumer)
     }
 }

@@ -1,7 +1,10 @@
 package forpleuvoir.dhwu1a.core.event.friend
 
 import com.google.gson.annotations.SerializedName
-import forpleuvoir.dhwu1a.core.common.*
+import forpleuvoir.dhwu1a.core.common.AUTHOR_ID
+import forpleuvoir.dhwu1a.core.common.MESSAGE_ID
+import forpleuvoir.dhwu1a.core.common.OPERATOR
+import forpleuvoir.dhwu1a.core.common.TIME
 import forpleuvoir.dhwu1a.core.user.Friend
 import java.util.*
 
@@ -37,7 +40,7 @@ class FriendRecallEvent(
     @field:SerializedName(OPERATOR) val operator: Long
 ) : FriendEvent(FriendEventType.FriendRecallEvent, null) {
     override fun getFriend(): Friend? {
-        return Optional.ofNullable(bot!!.getFriend(authorId)).orElse(null)
+        return Optional.ofNullable(bot.getFriend(authorId)).orElse(null)
     }
 
     override fun toPlainText(): String {

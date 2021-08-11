@@ -18,7 +18,6 @@ import forpleuvoir.dhwu1a.core.util.JsonUtil
 import forpleuvoir.dhwu1a.core.util.URLUtils
 import forpleuvoir.dhwu1a.core.util.ifHasKey
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient
-import java.net.URISyntaxException
 import java.util.*
 
 /**
@@ -43,8 +42,16 @@ class EventWSC(bot: Bot, ip: String, port: Int, verifyKey: String) : Dhwu1aWebSo
         QQ, bot.id
     ), bot, EVENT
 ) {
-    override fun onMessage(data: String) {
-        val jsonObject: JsonObject? = data.ifHasKey(SYNC_ID)
+    companion object {
+        @Transient
+        private val log: Dhwu1aLog = Dhwu1aLog(Dhwu1aWebSocketClient::class.java)
+        fun getInstance(bot: Bot, ip: String, port: Int, verifyKey: String): EventWSC {
+            return EventWSC(bot, ip, port, verifyKey)
+        }
+    }
+
+    override fun onMessageAsync(message: String) {
+        val jsonObject: JsonObject? = message.ifHasKey(SYNC_ID)
         Optional.ofNullable<JsonObject>(jsonObject).ifPresent {
             if (jsonObject!![SYNC_ID].asString == "") return@ifPresent
             val getData = JsonUtil.gson.fromJson(jsonObject, GetData::class.java)
@@ -69,16 +76,5 @@ class EventWSC(bot: Bot, ip: String, port: Int, verifyKey: String) : Dhwu1aWebSo
         }
     }
 
-    companion object {
-        @Transient
-        private val log: Dhwu1aLog = Dhwu1aLog(Dhwu1aWebSocketClient::class.java)
-        fun getInstance(bot: Bot, ip: String, port: Int, verifyKey: String): EventWSC? {
-            return try {
-                EventWSC(bot, ip, port, verifyKey)
-            } catch (e: URISyntaxException) {
-                log.error(e.message, e)
-                null
-            }
-        }
-    }
+
 }

@@ -6,7 +6,6 @@ import forpleuvoir.dhwu1a.core.common.ID
 import forpleuvoir.dhwu1a.core.message.base.MessageSenderObject
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem
 import forpleuvoir.dhwu1a.core.user.bot.Bot
-import java.util.function.Consumer
 import javax.annotation.Nonnull
 
 /**
@@ -26,20 +25,20 @@ abstract class User protected constructor(
      */
     @field:SerializedName(ID) val id: Long
 ) : IUser {
-    val bot: Bot = Dhwu1a.instance!!.bot!!
+    val bot: Bot = Dhwu1a.instance.bot
     override fun sendMessage(@Nonnull messageChain: List<MessageItem>) {
         messageSenderObject().sendMessage(messageChain, null)
     }
 
-    override fun sendMessage(messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>) {
+    override fun sendMessage(@Nonnull messageChain: List<MessageItem>, messageIdConsumer: ((Int?) -> Unit)?) {
         messageSenderObject().sendMessage(messageChain) {
-            messageIdConsumer?.accept(it)
+            messageIdConsumer?.invoke(it)
         }
     }
 
-    override fun quote(quoteId: Int, messageIdConsumer: Consumer<Int?>?, @Nonnull messageChain: List<MessageItem>) {
+    override fun quote(quoteId: Int, @Nonnull messageChain: List<MessageItem>, messageIdConsumer: ((Int?) -> Unit)?) {
         messageSenderObject().isQuoted(quoteId).sendMessage(messageChain) {
-            messageIdConsumer?.accept(it)
+            messageIdConsumer?.invoke(it)
         }
     }
 

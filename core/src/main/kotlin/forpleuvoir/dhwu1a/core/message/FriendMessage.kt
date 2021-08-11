@@ -24,9 +24,9 @@ class FriendMessage(`object`: JsonObject) : Message(MessageType.FriendMessage, `
      */
     @JvmField
     @SerializedName(FRIEND)
-    val friend: Friend? = sender.user as Friend?
+    val friend: Friend = sender.user as Friend
     override fun printMessageLog() {
-        log.info("RM/Bot.{}:{}({}) >> {}", bot.id, friend?.data?.nickname, friend?.id, this.toPlainText())
+        log.info("RM/Bot.{}:{}({}) >> {}", bot.id, friend.data.nickname, friend.id, this.toPlainText())
     }
 
 }

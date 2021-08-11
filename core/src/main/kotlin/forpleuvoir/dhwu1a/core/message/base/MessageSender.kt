@@ -33,7 +33,7 @@ abstract class MessageSender(
          * 接收消息的Bot
          */
         @Transient
-        val bot: Bot = Dhwu1a.instance!!.bot!!
+        val bot: Bot = Dhwu1a.instance.bot
 
         @JvmStatic
         fun parse(type: MessageType, `object`: JsonObject?): MessageSender {

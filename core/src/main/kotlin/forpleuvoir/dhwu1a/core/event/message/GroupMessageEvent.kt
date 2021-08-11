@@ -27,7 +27,7 @@ class GroupMessageEvent(message: GroupMessage) : MessageEvent<GroupMessage>(mess
     /**
      * 事件相关群员
      */
-    val member: Member?
+    val member: Member
 
     override val user: User
         get() = group

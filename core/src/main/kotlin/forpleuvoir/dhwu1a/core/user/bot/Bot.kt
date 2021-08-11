@@ -16,6 +16,8 @@ import forpleuvoir.dhwu1a.core.websocket.EventWSC
 import forpleuvoir.dhwu1a.core.websocket.MessageWSC
 import forpleuvoir.dhwu1a.core.websocket.base.CommandSender
 import forpleuvoir.dhwu1a.core.websocket.command.Command
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.function.Consumer
 
@@ -32,12 +34,21 @@ import java.util.function.Consumer
  *
  * #create_time 2021/6/28 20:38
  */
-class Bot private constructor(config: Dhwu1aConfig) : IJsonData {
+class Bot : IJsonData {
+    companion object {
+        val instance: Bot by lazy { Bot() }
+    }
+
+    private lateinit var config: Dhwu1aConfig
+
+    @Transient
+    private val log: Dhwu1aLog = Dhwu1aLog(Bot::class.java)
+
     /**
      * Bot的QQ号
      */
-    @JvmField
-    val id: Long
+    var id: Long = 0
+        private set
 
     /**
      * Bot资料
@@ -48,12 +59,12 @@ class Bot private constructor(config: Dhwu1aConfig) : IJsonData {
     /**
      * 消息websocket客户端
      */
-    private val messageWSC: MessageWSC?
+    private lateinit var messageWSC: MessageWSC
 
     /**
      * 事件websocket客户端
      */
-    private val eventWSC: EventWSC?
+    private lateinit var eventWSC: EventWSC
 
     /**
      * Bot的所有好友
@@ -64,20 +75,24 @@ class Bot private constructor(config: Dhwu1aConfig) : IJsonData {
      * Bot加入的所有群
      */
     private val groups: ConcurrentLinkedDeque<Group> = ConcurrentLinkedDeque<Group>()
-    private fun init() {
-        eventWSC?.connect()
-        try {
-            messageWSC?.connectBlocking()
-            sync()
-        } catch (e: InterruptedException) {
-            log.error(e.message, e)
-        }
+
+
+    fun initialize(config: Dhwu1aConfig) {
+        this.config = config
+        this.id = this.config.botId
+        this.messageWSC = MessageWSC.getInstance(this, config.ip, config.port, config.verifyKey)
+        this.messageWSC.setOnOpenCallback { sync() }
+        this.messageWSC.connect()
+        this.eventWSC = EventWSC.getInstance(this, config.ip, config.port, config.verifyKey)
+        this.eventWSC.connect()
+
+
     }
 
     fun sync() {
         syncGroup()
         syncFriend()
-        syncProfile()
+        syncProfile {}
     }
 
     fun syncFriend() {
@@ -117,17 +132,22 @@ class Bot private constructor(config: Dhwu1aConfig) : IJsonData {
         )
     }
 
-    fun syncProfile() {
+    fun getProfileAsync(profile: (Profile?) -> Unit) {
+        runBlocking { launch { syncProfile(profile) } }
+    }
+
+    private fun syncProfile(profile: (Profile?) -> Unit) {
         log.info("同步Bot资料")
         sendCommand(
             CommandSender(Command.BotProfile)
         ) { data: JsonObject? ->
-            profile = JsonUtil.gson.fromJson(data, Profile::class.java)
+            this.profile = JsonUtil.gson.fromJson(data, Profile::class.java)
+            profile.invoke(this.profile)
         }
     }
 
     fun sendCommand(sender: CommandSender, consumer: Consumer<JsonObject>?) {
-        messageWSC?.sendMessage(sender, consumer)
+        messageWSC.sendMessage(sender, consumer)
     }
 
     fun getFriend(id: Long): Friend? {
@@ -144,27 +164,10 @@ class Bot private constructor(config: Dhwu1aConfig) : IJsonData {
     }
 
     fun close() {
-        messageWSC?.close()
-        eventWSC?.close()
+        messageWSC.close()
+        eventWSC.close()
     }
 
-    companion object {
-        @Transient
-        private val log: Dhwu1aLog = Dhwu1aLog(Bot::class.java)
-        var instance: Bot? = null
-            private set
 
-        fun initialize(config: Dhwu1aConfig) {
-            if (instance == null) {
-                instance = Bot(config)
-                instance!!.init()
-            }
-        }
-    }
-
-    init {
-        id = config.botId
-        messageWSC = MessageWSC.getInstance(this, config.ip, config.port, config.verifyKey)
-        eventWSC = EventWSC.getInstance(this, config.ip, config.port, config.verifyKey)
-    }
 }
+

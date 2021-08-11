@@ -36,7 +36,7 @@ class MemberLeaveEventKick private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData?
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return operator!!.getGroup()
     }
 
@@ -45,7 +45,7 @@ class MemberLeaveEventKick private constructor(
             "%s[member:%d,operator:%d]",
             type,
             member.id,
-            operator?.id ?: bot!!.id
+            operator?.id ?: bot.id
         )
     }
 

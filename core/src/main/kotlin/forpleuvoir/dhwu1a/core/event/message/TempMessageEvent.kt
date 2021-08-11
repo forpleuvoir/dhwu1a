@@ -27,12 +27,12 @@ class TempMessageEvent(message: TempMessage) : MessageEvent<TempMessage>(message
     /**
      * 事件相关群员
      */
-    val member: Member?
-    override val user: User?
-        get() = message.member
+    val member: Member
+    override val user: User
+        get() = member
 
     init {
-        member = message.member
-        group = member!!.group
+        member = message.member!!
+        group = member.group
     }
 }

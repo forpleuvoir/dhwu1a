@@ -25,7 +25,7 @@ class BotJoinGroupEvent private constructor(group: GroupData) : GroupEvent(Group
     @SerializedName(GROUP)
     val group: GroupData
 
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return group.user
     }
 

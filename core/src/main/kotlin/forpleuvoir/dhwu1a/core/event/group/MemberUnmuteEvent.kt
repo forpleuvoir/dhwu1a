@@ -35,7 +35,7 @@ class MemberUnmuteEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return operator.getGroup()
     }
 

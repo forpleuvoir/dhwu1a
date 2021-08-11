@@ -29,7 +29,6 @@ class FriendData(
 ) : UserData<Friend?>(id!!) {
     override val user: Friend?
         get() {
-            assert(bot != null)
-            return bot!!.getFriend(id)
+            return bot.getFriend(id)
         }
 }

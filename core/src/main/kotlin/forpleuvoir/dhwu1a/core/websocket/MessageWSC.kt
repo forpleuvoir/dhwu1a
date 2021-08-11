@@ -14,7 +14,6 @@ import forpleuvoir.dhwu1a.core.util.URLUtils
 import forpleuvoir.dhwu1a.core.util.ifHasKey
 import forpleuvoir.dhwu1a.core.websocket.base.CommandSender
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient
-import java.net.URISyntaxException
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
@@ -41,20 +40,28 @@ class MessageWSC(bot: Bot, ip: String?, port: Int, verifyKey: String?) : Dhwu1aW
         QQ, bot.id
     ), bot, MESSAGE
 ) {
+    companion object {
+        @Transient
+        private val log: Dhwu1aLog = Dhwu1aLog(MessageWSC::class.java)
+        fun getInstance(bot: Bot, ip: String?, port: Int, verifyKey: String?): MessageWSC {
+            return MessageWSC(bot, ip, port, verifyKey)
+        }
+    }
+
     private val callbacks: ConcurrentHashMap<Int, Consumer<JsonObject>> = ConcurrentHashMap<Int, Consumer<JsonObject>>()
     fun sendMessage(sendObject: CommandSender, callback: Consumer<JsonObject>?) {
         this.send(sendObject.toMessageJsonString())
         if (callback != null) callbacks[sendObject.sendId] = callback
     }
 
-    override fun onMessage(data: String) {
-        val jsonObject: JsonObject? = data.ifHasKey(SYNC_ID)
+    override fun onMessageAsync(message: String) {
+        val jsonObject: JsonObject? = message.ifHasKey(SYNC_ID)
         Optional.ofNullable<JsonObject>(jsonObject).ifPresent {
             if (jsonObject!![SYNC_ID].asString == "") return@ifPresent
             val getData = JsonUtil.gson.fromJson(jsonObject, GetData::class.java)
             if (!getData.isCallback) {
-                val message = Message.parse(getData.data)
-                Optional.ofNullable(message)
+                val valueMessage = Message.parse(getData.data)
+                Optional.ofNullable(valueMessage)
                     .ifPresent { message1: Message? ->
                         eventBus.broadcast(
                             MessageEvent.parse(message1!!)
@@ -73,16 +80,5 @@ class MessageWSC(bot: Bot, ip: String?, port: Int, verifyKey: String?) : Dhwu1aW
         }
     }
 
-    companion object {
-        @Transient
-        private val log: Dhwu1aLog = Dhwu1aLog(MessageWSC::class.java)
-        fun getInstance(bot: Bot, ip: String?, port: Int, verifyKey: String?): MessageWSC? {
-            return try {
-                MessageWSC(bot, ip, port, verifyKey)
-            } catch (e: URISyntaxException) {
-                log.error(e.message, e)
-                null
-            }
-        }
-    }
+
 }

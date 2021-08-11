@@ -46,14 +46,14 @@ class GroupRecallEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData?
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return group.user
     }
 
     override fun toPlainText(): String {
         return String.format(
             "%s[messageId:%d,group:%d,operator:%d]", type, messageId, group.id,
-            operator?.id ?: bot!!.id
+            operator?.id ?: bot.id
         )
     }
 

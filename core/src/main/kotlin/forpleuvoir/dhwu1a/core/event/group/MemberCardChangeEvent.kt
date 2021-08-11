@@ -36,7 +36,7 @@ class MemberCardChangeEvent private constructor(
      */
     @SerializedName(MEMBER)
     val member: MemberData
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return member.getGroup()
     }
 

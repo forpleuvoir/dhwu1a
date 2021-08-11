@@ -31,5 +31,5 @@ class GroupData(
     id!!
 ) {
     override val user: Group
-        get() = bot?.getGroup(id)!!
+        get() = bot.getGroup(id)!!
 }

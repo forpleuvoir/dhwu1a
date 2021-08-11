@@ -45,14 +45,14 @@ class GroupAllowAnonymousChatEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData?
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return group.user
     }
 
     override fun toPlainText(): String {
         return String.format(
             "%s[origin:%b,current:%b,group:%d,operator:%d]", type, origin, current, group.id,
-            operator?.id ?: bot!!.id
+            operator?.id ?: bot.id
         )
     }
 

@@ -24,7 +24,7 @@ class BotUnmuteEvent private constructor(operator: OperatorData) : GroupEvent(Gr
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return operator.getGroup()
     }
 

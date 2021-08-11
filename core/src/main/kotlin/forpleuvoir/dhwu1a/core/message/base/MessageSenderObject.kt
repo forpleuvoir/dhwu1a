@@ -32,7 +32,7 @@ class MessageSenderObject(
     user: User
 ) :
     IMessageSenderObject {
-    private val bot: Bot = Dhwu1a.instance!!.bot!!
+    private val bot: Bot = Dhwu1a.instance.bot
     private val params = HashMap<String, Any>()
 
     init {
@@ -47,9 +47,9 @@ class MessageSenderObject(
     override fun sendMessage(messageChain: List<MessageItem>, messageIdConsumer: ((Int) -> Unit)?) {
         params[MESSAGE_CHAIN] = messageChain
         bot.sendCommand(CommandSender(command, params)) { data ->
-            if (data.ifHasKey(MESSAGE_ID)?.asInt == null) {
+            if (data.ifHasKey(MESSAGE_ID)?.asInt != null) {
                 log.info("SM/Bot.{}: {} << {}", bot.id, logFormat, toPlainText(messageChain))
-                messageIdConsumer?.invoke(data[MESSAGE_CHAIN].asInt)
+                messageIdConsumer?.invoke(data[MESSAGE_ID].asInt)
             }
         }
     }

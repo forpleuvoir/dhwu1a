@@ -23,6 +23,6 @@ abstract class UserData<U : User?>(@field:SerializedName(ID) val id: Long) : IJs
     companion object {
         @JvmField
         @Transient
-        val bot = instance!!.bot
+        val bot = instance.bot
     }
 }

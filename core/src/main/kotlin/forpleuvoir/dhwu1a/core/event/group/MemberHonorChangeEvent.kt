@@ -1,7 +1,9 @@
 package forpleuvoir.dhwu1a.core.event.group
 
 import com.google.gson.annotations.SerializedName
-import forpleuvoir.dhwu1a.core.common.*
+import forpleuvoir.dhwu1a.core.common.ACTION
+import forpleuvoir.dhwu1a.core.common.HONOR
+import forpleuvoir.dhwu1a.core.common.MEMBER
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.user.Group
 
@@ -40,7 +42,7 @@ class MemberHonorChangeEvent private constructor(
      */
     @SerializedName(HONOR)
     val honor: String
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return member.getGroup()
     }
 

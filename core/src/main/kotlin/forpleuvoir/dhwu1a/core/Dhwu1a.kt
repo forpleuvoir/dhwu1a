@@ -1,12 +1,10 @@
 package forpleuvoir.dhwu1a.core
 
-import forpleuvoir.dhwu1a.core.event.base.EventBus.Companion.getInstance
 import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig
 import forpleuvoir.dhwu1a.core.config.LogConfig
-import forpleuvoir.dhwu1a.core.user.bot.Bot
 import forpleuvoir.dhwu1a.core.event.base.EventBus
-import java.util.concurrent.CopyOnWriteArrayList
-import java.util.function.Consumer
+import forpleuvoir.dhwu1a.core.user.bot.Bot
+import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
  * 程序入口
@@ -21,29 +19,36 @@ import java.util.function.Consumer
  *
  * #create_time 2021/6/28 20:28
  */
-class Dhwu1a private constructor(config: Dhwu1aConfig) {
-    @JvmField
-    val logConfig: LogConfig
-    var bot: Bot? = null
+class Dhwu1a private constructor() {
+    companion object {
+        val instance: Dhwu1a by lazy { Dhwu1a() }
+    }
+
+    private lateinit var config: Dhwu1aConfig
+    lateinit var bot: Bot
+        private set
     var isRunning = false
         private set
-    private val config: Dhwu1aConfig
-    var eventBus: EventBus? = null
-        private set
-    private val onStart: MutableList<Consumer<Dhwu1a>> = CopyOnWriteArrayList()
-    private val onClose: MutableList<Consumer<Dhwu1a>> = CopyOnWriteArrayList()
-    private val onRestart: MutableList<Consumer<Dhwu1a>> = CopyOnWriteArrayList()
+    val eventBus: EventBus = EventBus.instance
+    private val onStart: MutableCollection<(Dhwu1a) -> Unit> = ConcurrentLinkedDeque()
+    private val onClose: MutableCollection<(Dhwu1a) -> Unit> = ConcurrentLinkedDeque()
+    private val onRestart: MutableCollection<(Dhwu1a) -> Unit> = ConcurrentLinkedDeque()
+
+    fun initialize(config: Dhwu1aConfig) {
+        Thread.currentThread().name = "dhwu1a"
+        LogConfig.instance.copyOf(config.logConfig)
+        this.config = config
+        this.bot = Bot.instance
+    }
 
     fun start() {
-        eventBus = getInstance()
-        Bot.initialize(config)
-        bot = Bot.instance
+        bot.initialize(config)
         isRunning = true
         onStart()
     }
 
     private fun onStart() {
-        onStart.forEach(Consumer { onStartConsumer: Consumer<Dhwu1a> -> onStartConsumer.accept(this) })
+        onStart.forEach { it.invoke(this) }
     }
 
     fun reStart() {
@@ -52,47 +57,30 @@ class Dhwu1a private constructor(config: Dhwu1aConfig) {
     }
 
     private fun onRestart() {
-        onRestart.forEach(Consumer { onRestartConsumer: Consumer<Dhwu1a> -> onRestartConsumer.accept(this) })
+        onRestart.forEach { it.invoke(this) }
     }
 
     fun close() {
-        bot!!.close()
-        bot = null
+        bot.close()
         isRunning = false
         onClose()
     }
 
     private fun onClose() {
-        onClose.forEach(Consumer { onCloseConsumer: Consumer<Dhwu1a> -> onCloseConsumer.accept(this) })
+        onClose.forEach { it.invoke(this) }
     }
 
-    fun addOnStartListener(consumer: Consumer<Dhwu1a>) {
-        onStart.add(consumer)
+    fun addOnStartListener(listener: (Dhwu1a) -> Unit) {
+        onStart.add(listener)
     }
 
-    fun addOnRestartListener(consumer: Consumer<Dhwu1a>) {
-        onRestart.add(consumer)
+    fun addOnRestartListener(listener: (Dhwu1a) -> Unit) {
+        onRestart.add(listener)
     }
 
-    fun addOnCloseListener(consumer: Consumer<Dhwu1a>) {
-        onClose.add(consumer)
+    fun addOnCloseListener(listener: (Dhwu1a) -> Unit) {
+        onClose.add(listener)
     }
 
-    companion object {
-        var instance: Dhwu1a? = null
-            private set
 
-        @JvmStatic
-        fun initialize(config: Dhwu1aConfig) {
-            if (instance == null) {
-                instance = Dhwu1a(config)
-            }
-        }
-    }
-
-    init {
-        Thread.currentThread().name = "dhwu1a"
-        logConfig = config.logConfig
-        this.config = config
-    }
 }

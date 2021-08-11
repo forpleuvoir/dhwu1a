@@ -24,7 +24,7 @@ class MemberLeaveEventQuit private constructor(member: MemberData) : GroupEvent(
      */
     @SerializedName(MEMBER)
     val member: MemberData
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return member.getGroup()
     }
 

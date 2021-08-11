@@ -14,7 +14,8 @@ import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
 import forpleuvoir.dhwu1a.core.util.JsonUtil
 import forpleuvoir.dhwu1a.core.websocket.base.CommandSender
 import forpleuvoir.dhwu1a.core.websocket.command.Command
-import java.util.function.Consumer
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * @author forpleuvoir
@@ -46,12 +47,16 @@ class Member(
     var profile: Profile? = null
         private set
 
-    fun getProfile(consumer: Consumer<Profile?>?) {
+    fun getProfileAsync(consumer: ((Profile?) -> Unit)) {
+        runBlocking { launch { getProfile(consumer) } }
+    }
+
+    private fun getProfile(consumer: ((Profile?) -> Unit)) {
         bot.sendCommand(
             CommandSender(Command.MemberList, mapOf(TARGET to group.id, MEMBER_ID to id))
         ) { data: JsonObject? ->
             profile = JsonUtil.gson.fromJson(data, Profile::class.java)
-            consumer?.accept(profile)
+            consumer.invoke(profile)
         }
     }
 
@@ -90,6 +95,6 @@ class Member(
 
     init {
         data = memberData
-        getProfile(null)
+        getProfile { }
     }
 }

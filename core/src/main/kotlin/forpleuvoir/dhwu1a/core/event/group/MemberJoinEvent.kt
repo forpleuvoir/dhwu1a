@@ -25,7 +25,7 @@ class MemberJoinEvent private constructor(member: MemberData) : GroupEvent(Group
      */
     @SerializedName(MEMBER)
     val member: MemberData
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return member.getGroup()
     }
 

@@ -1,8 +1,9 @@
 package forpleuvoir.dhwu1a.core.event.group
 
 import com.google.gson.annotations.SerializedName
-import forpleuvoir.dhwu1a.core.common.*
+import forpleuvoir.dhwu1a.core.common.CURRENT
 import forpleuvoir.dhwu1a.core.common.MEMBER
+import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.user.Group
 import forpleuvoir.dhwu1a.core.user.base.Permission
@@ -36,7 +37,7 @@ class MemberPermissionChangeEvent private constructor(
      */
     @SerializedName(MEMBER)
     val member: MemberData
-    override fun getGroup(): Group? {
+    override fun getGroup(): Group {
         return member.getGroup()
     }
 

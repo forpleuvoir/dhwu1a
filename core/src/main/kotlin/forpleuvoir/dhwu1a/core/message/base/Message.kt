@@ -11,7 +11,6 @@ import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItem
 import forpleuvoir.dhwu1a.core.message.messageitem.base.MessageItemType
 import forpleuvoir.dhwu1a.core.user.bot.Bot
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
-import java.util.function.Consumer
 
 /**
  * 消息
@@ -71,7 +70,7 @@ abstract class Message(
      * 接收消息的Bot
      */
     @Transient
-    val bot: Bot = Dhwu1a.instance!!.bot!!
+    val bot: Bot = Dhwu1a.instance.bot
 
     /**
      * 消息发送者
@@ -103,12 +102,12 @@ abstract class Message(
     }
 
 
-    fun quote(messageIdConsumer: Consumer<Int?>, messageChain: List<MessageItem>) {
-        sender.user?.quote(messageId, messageIdConsumer, messageChain)
+    fun quote(messageChain: List<MessageItem>, messageIdConsumer: ((Int?) -> Unit)?) {
+        sender.user?.quote(messageId, messageChain, messageIdConsumer)
     }
 
-    fun quote(messageIdConsumer: Consumer<Int?>, vararg messageChain: MessageItem) {
-        quote(messageIdConsumer, listOf(*messageChain))
+    fun quote(vararg messageChain: MessageItem, messageIdConsumer: ((Int?) -> Unit)?) {
+        quote(listOf(*messageChain), messageIdConsumer)
     }
 
     override fun toPlainText(): String {

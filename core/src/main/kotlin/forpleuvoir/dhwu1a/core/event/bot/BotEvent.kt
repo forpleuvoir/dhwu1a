@@ -44,7 +44,7 @@ abstract class BotEvent protected constructor(
     }
 
     override fun toPlainText(): String {
-        return String.format("%s[%d]", type, bot!!.id)
+        return String.format("%s[%d]", type, bot.id)
     }
 
     companion object {
