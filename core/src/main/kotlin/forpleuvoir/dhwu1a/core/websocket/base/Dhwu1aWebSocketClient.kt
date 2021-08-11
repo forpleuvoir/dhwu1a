@@ -4,9 +4,11 @@ import forpleuvoir.dhwu1a.core.Dhwu1a
 import forpleuvoir.dhwu1a.core.event.base.EventBus
 import forpleuvoir.dhwu1a.core.user.bot.Bot
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
-import java.lang.Thread.sleep
 import java.net.URI
 import kotlin.system.exitProcess
 
@@ -50,14 +52,18 @@ abstract class Dhwu1aWebSocketClient(serverUri: String, protected val bot: Bot, 
     override fun onClose(code: Int, reason: String, remote: Boolean) {
         log.info("WebSocketClient {} 关闭", name)
         if (Dhwu1a.instance!!.isRunning) {
-            Thread { reconnect() }.start()
+            runBlocking {
+                reconnect()
+            }
         } else {
-            Thread {
-                sleep(5000)
-                exitProcess(0)
-            }.start()
+            runBlocking { doClose() }
         }
 
+    }
+
+    private suspend fun doClose(): Nothing = coroutineScope {
+        delay(5000)
+        exitProcess(0)
     }
 
     override fun onError(ex: Exception) {
