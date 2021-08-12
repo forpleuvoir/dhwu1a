@@ -19,8 +19,9 @@ subprojects {
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
         implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt'
-        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21'
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20'
         implementation group: 'com.google.code.gson', name: 'gson', version: "${project.gson_version}"
         implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: "${project.java_websocket_version}"
         implementation group: 'com.google.guava', name: 'guava', version: "${project.guava_version}"

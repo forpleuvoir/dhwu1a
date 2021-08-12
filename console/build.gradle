@@ -1,10 +1,28 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
-group = project.core_group as Object
+group = project.console_group as Object
 version = project.dhwu1a_version as Object
+
+def mainClassName = "forpleuvoir.dhwu1a.console.Dhwu1aConsoleKt"
+
+shadowJar {
+    archiveBaseName.set("dhwu1a-console")
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+
+}
+
+dependencies {
+    implementation project(":core")
+}
 
 
 tasks.withType(JavaCompile) {
@@ -30,8 +48,8 @@ publishing {
         core(MavenPublication) {
             from components.java
             pom {
-                name = 'dhwu1a-core'
-                description = 'dhwu1a core'
+                name = 'dhwu1a-console'
+                description = 'dhwu1a console'
                 url = 'https://github.com/forpleuvoir/dhwu1a'
                 licenses {
                     license {
