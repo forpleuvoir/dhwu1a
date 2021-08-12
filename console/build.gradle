@@ -29,16 +29,6 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-        }
-        resources {
-            srcDir 'src/main/resources'
-        }
-    }
-}
 
 publishing {
     repositories {

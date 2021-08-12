@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory
  *
  * #create_time 2021/6/29 23:26
  */
-class Dhwu1aLog(clazz: Class<*>?) {
+class Dhwu1aLog(clazz: Class<*>) {
     @Transient
     private val log: Logger
     fun info(format: String?, vararg args: Any?) {
@@ -52,6 +52,6 @@ class Dhwu1aLog(clazz: Class<*>?) {
 
 
     init {
-        log = LoggerFactory.getLogger(clazz)
+        log = LoggerFactory.getLogger(clazz.simpleName)
     }
 }

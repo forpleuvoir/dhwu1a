@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
+import java.lang.Thread.sleep
 import java.net.URI
 import kotlin.system.exitProcess
 
@@ -62,11 +63,9 @@ abstract class Dhwu1aWebSocketClient(serverUri: String, protected val bot: Bot, 
     override fun onClose(code: Int, reason: String, remote: Boolean) {
         log.info("WebSocketClient {} 关闭", name)
         if (Dhwu1a.instance.isRunning) {
-            runBlocking {
-                launch {
-                    delay(5000)
-                    reconnect()
-                }
+            Thread {
+                sleep(5000)
+                reconnect()
             }
         } else {
             runBlocking {
