@@ -6,7 +6,10 @@ import forpleuvoir.dhwu1a.core.common.DATA
 import forpleuvoir.dhwu1a.core.common.TARGET
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.common.data.MemberData
+import forpleuvoir.dhwu1a.core.event.group.MemberJoinEvent
+import forpleuvoir.dhwu1a.core.event.group.MemberLeaveEventKick
 import forpleuvoir.dhwu1a.core.message.base.MessageSenderObject
+import forpleuvoir.dhwu1a.core.user.base.Permission
 import forpleuvoir.dhwu1a.core.user.base.User
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
 import forpleuvoir.dhwu1a.core.util.JsonUtil
@@ -32,20 +35,31 @@ class Group(groupData: GroupData) : User(groupData.id) {
     @JvmField
     val data: GroupData
     private val members: ConcurrentLinkedDeque<Member> = ConcurrentLinkedDeque<Member>()
+    private var syncCompleted: (() -> Unit)? = null
+
+    fun syncCompleted(syncCompleted: (() -> Unit)): Group {
+        this.syncCompleted = syncCompleted
+        return this
+    }
+
     fun syncMember() {
+        bot.syncStarted()
         log.info("({})同步群员列表", data.name)
-        bot.sendCommand(
-            CommandSender(
-                Command.MemberList,
-                mapOf(TARGET to id)
-            )
-        ) { data: JsonObject ->
+        val startTime = System.currentTimeMillis()
+        bot.sendCommand(CommandSender(Command.MemberList, mapOf(TARGET to id))) { data: JsonObject ->
             if (data[DATA].isJsonArray) {
                 members.clear()
                 data[DATA].asJsonArray.forEach { element: JsonElement? ->
                     val memberData = JsonUtil.gson.fromJson(element, MemberData::class.java)
                     members.add(Member(this, memberData))
                 }
+                syncCompleted?.invoke()
+                log.info(
+                    "({}[{}])同步群员列表完成,耗时:{}ms",
+                    this.data.name,
+                    members.size,
+                    System.currentTimeMillis() - startTime
+                )
             }
         }
     }
@@ -63,6 +77,19 @@ class Group(groupData: GroupData) : User(groupData.id) {
 
     fun getMember(id: Long): Member? {
         return members.stream().filter { member: Member -> member.id == id }.findFirst().orElse(null)
+    }
+
+    fun addMember(memberJoinEvent: MemberJoinEvent) {
+        if (getMember(memberJoinEvent.member.id) == null)
+            this.members.add(Member(this, memberJoinEvent.member))
+    }
+
+    fun removeMember(memberLeaveEventKick: MemberLeaveEventKick) {
+        this.members.removeIf { member -> member.id == memberLeaveEventKick.member.id }
+    }
+
+    fun getOwner(): Member {
+        return members.stream().filter { member -> member.data.permission == Permission.OWNER }.findFirst().get()
     }
 
     companion object {

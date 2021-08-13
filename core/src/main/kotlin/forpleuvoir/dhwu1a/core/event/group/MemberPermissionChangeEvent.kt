@@ -6,6 +6,7 @@ import forpleuvoir.dhwu1a.core.common.MEMBER
 import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 import forpleuvoir.dhwu1a.core.user.base.Permission
 
 /**
@@ -37,8 +38,17 @@ class MemberPermissionChangeEvent private constructor(
      */
     @SerializedName(MEMBER)
     val member: MemberData
+
+    override fun callback() {
+        getMember().data.permission = current
+    }
+
     override fun getGroup(): Group {
         return member.getGroup()
+    }
+
+    override fun getMember(): Member {
+        return getGroup().getMember(member.id)!!
     }
 
     override fun toPlainText(): String {

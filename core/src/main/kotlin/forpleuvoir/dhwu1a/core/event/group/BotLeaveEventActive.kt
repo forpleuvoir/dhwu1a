@@ -19,6 +19,10 @@ import forpleuvoir.dhwu1a.core.user.Group
  * #create_time 2021/7/3 23:05
  */
 class BotLeaveEventActive private constructor(group: GroupData) : GroupEvent(GroupEventType.BotLeaveEventActive) {
+    override fun callback() {
+        bot.syncGroup()
+    }
+
     /**
      * Bot退出的群的信息
      */

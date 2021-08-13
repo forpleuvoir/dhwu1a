@@ -8,6 +8,7 @@ import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 全员禁言
@@ -40,11 +41,17 @@ class GroupMuteAllEvent private constructor(
     @SerializedName(GROUP)
     val group: GroupData
 
+    override fun getMember(): Member? {
+        operator?.let { return getGroup().getMember(operator.id) }
+        return null
+    }
+
     /**
      * 操作的管理员或群主信息，当null时为Bot操作
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData?
+
     override fun getGroup(): Group {
         return group.user
     }

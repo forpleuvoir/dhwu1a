@@ -1,7 +1,8 @@
 package forpleuvoir.dhwu1a.core.event.friend
 
 import com.google.gson.annotations.SerializedName
-import forpleuvoir.dhwu1a.core.common.*
+import forpleuvoir.dhwu1a.core.common.FROM
+import forpleuvoir.dhwu1a.core.common.TO
 import forpleuvoir.dhwu1a.core.common.data.FriendData
 
 /**
@@ -28,6 +29,10 @@ class FriendNickChangedEvent(
      */
     @field:SerializedName(TO) val to: String
 ) : FriendEvent(FriendEventType.FriendNickChangedEvent, friend) {
+    override fun callback() {
+        bot.syncFriend()
+    }
+
     override fun toPlainText(): String {
         return String.format("%s[from:%s,to:%s]", type, from, to)
     }

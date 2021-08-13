@@ -48,7 +48,10 @@ abstract class Dhwu1aEvent : IPlainText, IJsonData, IEventBroadcastHandler {
         log.info("E/Bot.{}: {}", bot.id, toPlainText())
     }
 
+    protected open fun callback() {}
+
     override fun broadcastHandle(eventListeners: ImmutableMap<Class<out Dhwu1aEvent>, ImmutableList<Consumer<in Dhwu1aEvent>>>) {
+        this.callback()
         if (eventListeners.containsKey(this.javaClass)) {
             for (listener in eventListeners[this.javaClass]!!) {
                 listener.accept(this)

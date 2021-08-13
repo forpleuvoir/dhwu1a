@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
 import forpleuvoir.dhwu1a.core.common.TYPE
 import forpleuvoir.dhwu1a.core.event.base.Dhwu1aEvent
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 import forpleuvoir.dhwu1a.core.util.JsonUtil
 import forpleuvoir.dhwu1a.core.util.ReflectionUtil
 import java.util.function.Consumer
@@ -31,7 +32,18 @@ abstract class GroupEvent protected constructor(
     @field:SerializedName(TYPE) val type: GroupEventType
 ) : Dhwu1aEvent() {
 
+    /**
+     * 事件相关群
+     */
     abstract fun getGroup(): Group?
+
+
+    /**
+     * 事件相关群员
+     */
+    open fun getMember(): Member? {
+        return null
+    }
 
     override fun broadcastHandle(
         eventListeners: ImmutableMap<Class<out Dhwu1aEvent>, ImmutableList<Consumer<in Dhwu1aEvent>>>

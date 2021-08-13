@@ -6,6 +6,7 @@ import forpleuvoir.dhwu1a.core.common.HONOR
 import forpleuvoir.dhwu1a.core.common.MEMBER
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 群员称号改变
@@ -44,6 +45,10 @@ class MemberHonorChangeEvent private constructor(
     val honor: String
     override fun getGroup(): Group {
         return member.getGroup()
+    }
+
+    override fun getMember(): Member {
+        return getGroup().getMember(member.id)!!
     }
 
     override fun toPlainText(): String {

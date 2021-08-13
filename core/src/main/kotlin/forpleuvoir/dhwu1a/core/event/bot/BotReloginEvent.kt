@@ -13,4 +13,10 @@ package forpleuvoir.dhwu1a.core.event.bot
  *
  * #create_time 2021/7/3 20:48
  */
-class BotReloginEvent : BotEvent(BotEventType.BotReloginEvent)
+class BotReloginEvent : BotEvent(BotEventType.BotReloginEvent){
+
+    override fun callback() {
+        bot.sync()
+    }
+
+}

@@ -8,6 +8,7 @@ import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 某群入群公告改变
@@ -45,8 +46,14 @@ class GroupEntranceAnnouncementChangeEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData?
+
     override fun getGroup(): Group {
         return group.user
+    }
+
+    override fun getMember(): Member? {
+        operator?.let { return getGroup().getMember(operator.id) }
+        return null
     }
 
     override fun toPlainText(): String {

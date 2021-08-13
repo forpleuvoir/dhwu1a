@@ -15,7 +15,6 @@ import forpleuvoir.dhwu1a.core.Dhwu1a
  * #create_time 2021/8/12 22:36
  */
 fun main(args: Array<String>) {
-    val dhwu1a: Dhwu1a = Dhwu1a.instance
 
 }
 

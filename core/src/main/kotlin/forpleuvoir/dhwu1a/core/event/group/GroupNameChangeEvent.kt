@@ -8,6 +8,7 @@ import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 某个群名改变
@@ -23,6 +24,7 @@ import forpleuvoir.dhwu1a.core.user.Group
  * #create_time 2021/7/3 23:18
  */
 class GroupNameChangeEvent private constructor(
+
     /**
      * 原群名
      */
@@ -34,6 +36,11 @@ class GroupNameChangeEvent private constructor(
     group: GroupData,
     operator: OperatorData?
 ) : GroupEvent(GroupEventType.GroupNameChangeEvent) {
+
+    override fun callback() {
+        getGroup().data.name = current
+    }
+
     /**
      * 群名改名的群信息
      */
@@ -45,8 +52,15 @@ class GroupNameChangeEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData?
+
+
     override fun getGroup(): Group {
         return group.user
+    }
+
+    override fun getMember(): Member? {
+        operator?.let { return getGroup().getMember(operator.id) }
+        return null
     }
 
     override fun toPlainText(): String {

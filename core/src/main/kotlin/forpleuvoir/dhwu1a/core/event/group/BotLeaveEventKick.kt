@@ -19,6 +19,9 @@ import forpleuvoir.dhwu1a.core.user.Group
  * #create_time 2021/7/3 23:09
  */
 class BotLeaveEventKick private constructor(group: GroupData) : GroupEvent(GroupEventType.BotLeaveEventKick) {
+    override fun callback() {
+        bot.syncGroup()
+    }
     /**
      * Bot被踢出的群信息
      */

@@ -5,6 +5,7 @@ import forpleuvoir.dhwu1a.core.common.DURATION_SECONDS
 import forpleuvoir.dhwu1a.core.common.OPERATOR
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * Bot被禁言
@@ -31,6 +32,11 @@ class BotMuteEvent private constructor(
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData
+
+    override fun getMember(): Member {
+        return getGroup().getMember(operator.id)!!
+    }
+
     override fun getGroup(): Group {
         return operator.getGroup()
     }

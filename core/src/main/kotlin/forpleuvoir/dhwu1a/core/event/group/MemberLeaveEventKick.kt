@@ -6,6 +6,7 @@ import forpleuvoir.dhwu1a.core.common.OPERATOR
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 成员被踢出群（该成员不是Bot）
@@ -31,6 +32,10 @@ class MemberLeaveEventKick private constructor(
     @SerializedName(MEMBER)
     val member: MemberData
 
+    override fun callback() {
+        getGroup().removeMember(this)
+    }
+
     /**
      * 操作的管理员或群主信息，当null时为Bot操作
      */
@@ -38,6 +43,11 @@ class MemberLeaveEventKick private constructor(
     val operator: OperatorData?
     override fun getGroup(): Group {
         return operator!!.getGroup()
+    }
+
+    override fun getMember(): Member? {
+        operator?.let { return getGroup().getMember(operator.id) }
+        return null
     }
 
     override fun toPlainText(): String {

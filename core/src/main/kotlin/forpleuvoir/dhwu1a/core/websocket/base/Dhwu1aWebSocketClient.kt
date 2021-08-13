@@ -1,9 +1,12 @@
 package forpleuvoir.dhwu1a.core.websocket.base
 
+import com.google.gson.JsonObject
 import forpleuvoir.dhwu1a.core.Dhwu1a
+import forpleuvoir.dhwu1a.core.common.SYNC_ID
 import forpleuvoir.dhwu1a.core.event.base.EventBus
 import forpleuvoir.dhwu1a.core.user.bot.Bot
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
+import forpleuvoir.dhwu1a.core.util.ifHasKey
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -11,6 +14,8 @@ import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
 import java.lang.Thread.sleep
 import java.net.URI
+import java.util.concurrent.ConcurrentLinkedDeque
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.system.exitProcess
 
 /**
@@ -31,14 +36,31 @@ abstract class Dhwu1aWebSocketClient(serverUri: String, protected val bot: Bot, 
         URI(serverUri)
     ) {
 
-    @Transient
     private var onWebSocketOpened: ((ServerHandshake) -> Unit)? = null
 
-    @JvmField
     protected val eventBus: EventBus = Dhwu1a.instance.eventBus
 
+    var synchronizing: AtomicBoolean = AtomicBoolean(false)
+
+    private val tasks = ConcurrentLinkedDeque<() -> Boolean>()
+
+    protected fun addTask(task: () -> Boolean) {
+        tasks.addLast(task)
+    }
+
+    protected fun executeTask() {
+        runBlocking {
+            launch {
+                if (!synchronizing.get() && !tasks.isEmpty())
+                    tasks.removeIf {
+                        it.invoke()
+                    }
+            }
+        }
+    }
+
     override fun onOpen(handshakeData: ServerHandshake) {
-        Thread.currentThread().name = name
+        Thread.currentThread().name = "$name wsc"
         log.info(
             "WebSocketClient 初始化[code:{},message:{}]", handshakeData.httpStatus,
             handshakeData.httpStatusMessage
@@ -50,12 +72,17 @@ abstract class Dhwu1aWebSocketClient(serverUri: String, protected val bot: Bot, 
         onWebSocketOpened = callback
     }
 
-    abstract fun onMessageAsync(message: String)
+    abstract fun onMessageAsync(jsonObject: JsonObject)
 
     override fun onMessage(message: String?) {
         runBlocking {
             launch {
-                message?.let { onMessageAsync(message) }
+                message?.let {
+                    message.ifHasKey(SYNC_ID)?.let {
+                        onMessageAsync(it)
+                    }
+
+                }
             }
         }
     }

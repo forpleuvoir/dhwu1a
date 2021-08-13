@@ -11,12 +11,9 @@ import forpleuvoir.dhwu1a.core.user.bot.Bot
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
 import forpleuvoir.dhwu1a.core.util.JsonUtil
 import forpleuvoir.dhwu1a.core.util.URLUtils
-import forpleuvoir.dhwu1a.core.util.ifHasKey
 import forpleuvoir.dhwu1a.core.websocket.base.CommandSender
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient
-import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import java.util.function.Consumer
 
 /**
  * 消息websocket客户端
@@ -48,33 +45,33 @@ class MessageWSC(bot: Bot, ip: String?, port: Int, verifyKey: String?) : Dhwu1aW
         }
     }
 
-    private val callbacks: ConcurrentHashMap<Int, Consumer<JsonObject>> = ConcurrentHashMap<Int, Consumer<JsonObject>>()
-    fun sendMessage(sendObject: CommandSender, callback: Consumer<JsonObject>?) {
+    private val callbacks: ConcurrentHashMap<Int, (JsonObject) -> Unit> = ConcurrentHashMap<Int, (JsonObject) -> Unit>()
+
+    fun sendMessage(sendObject: CommandSender, callback: ((JsonObject) -> Unit)?) {
         this.send(sendObject.toMessageJsonString())
         if (callback != null) callbacks[sendObject.sendId] = callback
     }
 
-    override fun onMessageAsync(message: String) {
-        val jsonObject: JsonObject? = message.ifHasKey(SYNC_ID)
-        Optional.ofNullable<JsonObject>(jsonObject).ifPresent {
-            if (jsonObject!![SYNC_ID].asString == "") return@ifPresent
-            val getData = JsonUtil.gson.fromJson(jsonObject, GetData::class.java)
-            if (!getData.isCallback) {
-                val valueMessage = Message.parse(getData.data)
-                Optional.ofNullable(valueMessage)
-                    .ifPresent { message1: Message? ->
-                        eventBus.broadcast(
-                            MessageEvent.parse(message1!!)
-                        )
-                    }
-            } else {
-                if (callbacks.containsKey(getData.syncId)) {
-                    try {
-                        callbacks[getData.syncId]?.accept(getData.data)
-                        callbacks.remove(getData.syncId)
-                    } catch (e: Exception) {
-                        log.error(e.message, e)
-                    }
+    override fun onMessageAsync(jsonObject: JsonObject) {
+        if (jsonObject[SYNC_ID].asString == "") return
+        val getData = JsonUtil.gson.fromJson(jsonObject, GetData::class.java)
+        if (!getData.isCallback) {
+            this.addTask {
+                Message.parse(getData.data)?.let {
+                    eventBus.broadcast(
+                        MessageEvent.parse(it)
+                    )
+                }
+                true
+            }
+            executeTask()
+        } else {
+            if (callbacks.containsKey(getData.syncId)) {
+                try {
+                    callbacks[getData.syncId]?.invoke(getData.data)
+                    callbacks.remove(getData.syncId)
+                } catch (e: Exception) {
+                    log.error(e.message, e)
                 }
             }
         }

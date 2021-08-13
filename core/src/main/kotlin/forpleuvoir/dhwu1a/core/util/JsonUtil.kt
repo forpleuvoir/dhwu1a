@@ -40,7 +40,7 @@ fun String?.isEmptyString(): Boolean {
  * @return [JsonElement] 如果没有则返回 null
  */
 fun String.getKeyValue(key: String): JsonElement? {
-    return this.ifHasKey(key)!![key]
+    return this.ifHasKey(key)?.let { jsonObject: JsonObject -> jsonObject[key] }
 }
 
 /**

@@ -38,7 +38,6 @@ class Member(
     /**
      * 群员信息
      */
-    @JvmField
     val data: MemberData
 
     /**

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import forpleuvoir.dhwu1a.core.common.OPERATOR
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * Bot被取消禁言
@@ -24,8 +25,13 @@ class BotUnmuteEvent private constructor(operator: OperatorData) : GroupEvent(Gr
      */
     @SerializedName(OPERATOR)
     val operator: OperatorData
+
     override fun getGroup(): Group {
         return operator.getGroup()
+    }
+
+    override fun getMember(): Member {
+        return getGroup().getMember(operator.id)!!
     }
 
     override fun toPlainText(): String {

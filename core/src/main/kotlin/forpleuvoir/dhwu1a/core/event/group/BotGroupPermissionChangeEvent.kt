@@ -6,6 +6,7 @@ import forpleuvoir.dhwu1a.core.common.GROUP
 import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 import forpleuvoir.dhwu1a.core.user.base.Permission
 
 /**
@@ -35,8 +36,17 @@ class BotGroupPermissionChangeEvent private constructor(
      */
     @field:SerializedName(GROUP) val group: GroupData
 ) : GroupEvent(GroupEventType.BotGroupPermissionChangeEvent) {
+
+    override fun callback() {
+        getGroup().data.permission = current
+    }
+
     override fun getGroup(): Group {
         return group.user
+    }
+
+    override fun getMember(): Member {
+        return getGroup().getOwner()
     }
 
     override fun toPlainText(): String {

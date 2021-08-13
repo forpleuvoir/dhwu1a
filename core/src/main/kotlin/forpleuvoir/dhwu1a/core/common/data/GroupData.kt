@@ -22,11 +22,11 @@ class GroupData(
     /**
      * 群名称
      */
-    @field:SerializedName(NAME) val name: String,
+    @field:SerializedName(NAME) var name: String,
     /**
      * Bot在群里的权限
      */
-    @field:SerializedName(PERMISSION) val permission: Permission
+    @field:SerializedName(PERMISSION) var permission: Permission
 ) : UserData<Group>(
     id!!
 ) {

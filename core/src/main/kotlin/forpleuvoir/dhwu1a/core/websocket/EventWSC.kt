@@ -16,9 +16,7 @@ import forpleuvoir.dhwu1a.core.user.bot.Bot
 import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
 import forpleuvoir.dhwu1a.core.util.JsonUtil
 import forpleuvoir.dhwu1a.core.util.URLUtils
-import forpleuvoir.dhwu1a.core.util.ifHasKey
 import forpleuvoir.dhwu1a.core.websocket.base.Dhwu1aWebSocketClient
-import java.util.*
 
 /**
  * 时间websocket客户端
@@ -50,14 +48,11 @@ class EventWSC(bot: Bot, ip: String, port: Int, verifyKey: String) : Dhwu1aWebSo
         }
     }
 
-    override fun onMessageAsync(message: String) {
-        val jsonObject: JsonObject? = message.ifHasKey(SYNC_ID)
-        Optional.ofNullable<JsonObject>(jsonObject).ifPresent {
-            if (jsonObject!![SYNC_ID].asString == "") return@ifPresent
-            val getData = JsonUtil.gson.fromJson(jsonObject, GetData::class.java)
-            if (getData.isCallback) {
-                return@ifPresent
-            }
+    override fun onMessageAsync(jsonObject: JsonObject) {
+        if (jsonObject[SYNC_ID].asString == "") return
+        val getData = JsonUtil.gson.fromJson(jsonObject, GetData::class.java)
+        if (getData.isCallback) return
+        this.addTask {
             val type = getData.data[TYPE].asString
             var event: Dhwu1aEvent? = null
             if (BotEventType.hasKey(type)) {
@@ -71,10 +66,10 @@ class EventWSC(bot: Bot, ip: String, port: Int, verifyKey: String) : Dhwu1aWebSo
             } else if (NudgeEvent.type == type) {
                 event = NudgeEvent(getData.data)
             }
-            Optional.ofNullable<Dhwu1aEvent>(event)
-                .ifPresent { eventBus.broadcast(it) }
+            event?.let { eventBus.broadcast(it) }
+            true
         }
+        executeTask()
     }
-
 
 }

@@ -28,6 +28,7 @@ import java.util.function.Consumer
 class EventBus private constructor() {
 
     companion object {
+        @JvmStatic
         val instance: EventBus by lazy { EventBus() }
     }
 
@@ -52,22 +53,40 @@ class EventBus private constructor() {
         }
     }
 
-    inline fun <reified E : Dhwu1aEvent> subscribe(crossinline listener: (E) -> Unit) {
-        subscribe(E::class.java) {
+    inline fun <reified E : Dhwu1aEvent> subscribe(crossinline listener: (E) -> Unit): Int {
+        return subscribe(E::class.java) {
             listener.invoke(it)
         }
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <E : Dhwu1aEvent> subscribe(channel: Class<out E>, listener: Consumer<in E>) {
-        log.debug("事件订阅({})", channel.name)
+    fun <E : Dhwu1aEvent> subscribe(channel: Class<out E>, listener: Consumer<in E>): Int {
+        log.debug("事件订阅({}[{}])", channel.simpleName,listener.hashCode())
         if (eventListeners.containsKey(channel)) {
             eventListeners[channel]!!.add(listener as Consumer<in Dhwu1aEvent>?)
         } else {
             eventListeners[channel] =
                 ConcurrentLinkedQueue<Consumer<in Dhwu1aEvent>>(listOf(listener as Consumer<in Dhwu1aEvent>?))
         }
+        return listener.hashCode()
     }
+
+    inline fun <reified E : Dhwu1aEvent> unSubscribe(hashCode: Int): Boolean {
+        return unSubscribe(E::class.java, hashCode)
+    }
+
+    fun <E : Dhwu1aEvent> unSubscribe(channel: Class<out E>, hashCode: Int): Boolean {
+        if (eventListeners.containsKey(channel)) {
+            eventListeners[channel]?.let {
+                if (eventListeners[channel]!!.removeIf { listener -> listener.hashCode() == hashCode }) {
+                    log.debug("事件退订({}[{}])", channel.simpleName, hashCode)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
 
     fun registerEventsListener(@NotNull listener: Listener) {
         EventHandlerParser.parse(listener, this)

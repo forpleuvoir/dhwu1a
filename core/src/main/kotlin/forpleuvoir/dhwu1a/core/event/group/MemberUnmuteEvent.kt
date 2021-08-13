@@ -6,6 +6,7 @@ import forpleuvoir.dhwu1a.core.common.OPERATOR
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 群成员被取消禁言事件（该成员不是Bot）
@@ -37,6 +38,10 @@ class MemberUnmuteEvent private constructor(
     val operator: OperatorData
     override fun getGroup(): Group {
         return operator.getGroup()
+    }
+
+    override fun getMember(): Member? {
+        return getGroup().getMember(member.id)!!
     }
 
     override fun toPlainText(): String {

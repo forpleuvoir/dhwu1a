@@ -19,6 +19,10 @@ import forpleuvoir.dhwu1a.core.user.Group
  * #create_time 2021/7/3 23:02
  */
 class BotJoinGroupEvent private constructor(group: GroupData) : GroupEvent(GroupEventType.BotJoinGroupEvent) {
+    override fun callback() {
+        bot.syncGroup()
+    }
+
     /**
      * Bot新加入群的信息
      */

@@ -17,6 +17,7 @@ import forpleuvoir.dhwu1a.core.common.IJsonData
  */
 class LogConfig : IJsonData, IConfig {
     companion object {
+        @JvmStatic
         val instance: LogConfig by lazy { LogConfig() }
     }
 

@@ -22,17 +22,17 @@ import java.util.function.Consumer
 
  * #create_time 2021/8/10 22:14
  */
-abstract class MessageEvent<M : Message>(val message: M) : Dhwu1aEvent() {
+abstract class MessageEvent<M : Message>(@JvmField val message: M) : Dhwu1aEvent() {
     companion object {
         @JvmStatic
         @Suppress("UNCHECKED_CAST")
-        fun parse(message: Message): MessageEvent<Message> {
+        fun parse(message: Message): MessageEvent<*> {
             return when (message.type) {
-                MessageType.GroupMessage -> GroupMessageEvent(message as GroupMessage) as MessageEvent<Message>
-                MessageType.FriendMessage -> FriendMessageEvent(message as FriendMessage) as MessageEvent<Message>
-                MessageType.TempMessage -> TempMessageEvent(message as TempMessage) as MessageEvent<Message>
-                MessageType.StrangerMessage -> StrangerMessageEvent(message as StrangerMessage) as MessageEvent<Message>
-                MessageType.OtherClientMessage -> OtherClientMessageEvent(message as OtherClientMessage) as MessageEvent<Message>
+                MessageType.GroupMessage -> GroupMessageEvent(message as GroupMessage)
+                MessageType.FriendMessage -> FriendMessageEvent(message as FriendMessage)
+                MessageType.TempMessage -> TempMessageEvent(message as TempMessage)
+                MessageType.StrangerMessage -> StrangerMessageEvent(message as StrangerMessage)
+                MessageType.OtherClientMessage -> OtherClientMessageEvent(message as OtherClientMessage)
             }
         }
     }

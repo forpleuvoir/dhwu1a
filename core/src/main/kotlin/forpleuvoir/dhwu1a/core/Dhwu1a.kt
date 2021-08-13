@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentLinkedDeque
  */
 class Dhwu1a private constructor() {
     companion object {
+        @JvmStatic
         val instance: Dhwu1a by lazy { Dhwu1a() }
     }
 

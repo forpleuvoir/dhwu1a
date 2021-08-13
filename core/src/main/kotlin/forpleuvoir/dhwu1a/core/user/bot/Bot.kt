@@ -6,6 +6,7 @@ import forpleuvoir.dhwu1a.core.common.IJsonData
 import forpleuvoir.dhwu1a.core.common.TARGET
 import forpleuvoir.dhwu1a.core.common.data.FriendData
 import forpleuvoir.dhwu1a.core.common.data.GroupData
+import forpleuvoir.dhwu1a.core.common.day
 import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig
 import forpleuvoir.dhwu1a.core.user.Friend
 import forpleuvoir.dhwu1a.core.user.Group
@@ -18,8 +19,9 @@ import forpleuvoir.dhwu1a.core.websocket.base.CommandSender
 import forpleuvoir.dhwu1a.core.websocket.command.Command
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.*
 import java.util.concurrent.ConcurrentLinkedDeque
-import java.util.function.Consumer
+
 
 /**
  * bot本体
@@ -76,46 +78,104 @@ class Bot : IJsonData {
      */
     private val groups: ConcurrentLinkedDeque<Group> = ConcurrentLinkedDeque<Group>()
 
+    /**
+     * 同步状态
+     *
+     * 0:群同步
+     *
+     * 1:好友同步
+     *
+     * 2:资料同步
+     */
+    private var syncCompleted: Array<Boolean> = arrayOf(false, false, false)
+
 
     fun initialize(config: Dhwu1aConfig) {
         this.config = config
         this.id = this.config.botId
         this.messageWSC = MessageWSC.getInstance(this, config.ip, config.port, config.verifyKey)
-        this.messageWSC.setOnOpenCallback { sync() }
+        this.messageWSC.setOnOpenCallback {
+            sync()
+            syncTask()
+        }
         this.messageWSC.connect()
         this.eventWSC = EventWSC.getInstance(this, config.ip, config.port, config.verifyKey)
         this.eventWSC.connect()
+    }
 
-
+    private fun syncTask() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 3)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        var date = calendar.time
+        if (date.before(Date()))
+            date = Date(date.time + 1L.day())
+        kotlin.concurrent.timer("bot sync", true, date, 1L.day()) {
+            sync()
+        }
     }
 
     fun sync() {
         syncGroup()
         syncFriend()
-        syncProfile {}
+        syncProfile {
+            profile?.let {
+                syncCompleted[2] = true
+                syncCompleted()
+            }
+        }
+    }
+
+    fun syncStarted() {
+        messageWSC.synchronizing.set(true)
+        eventWSC.synchronizing.set(true)
+        for (i in 1..syncCompleted.size) {
+            syncCompleted[i - 1] = false
+        }
+    }
+
+    private fun syncCompleted() {
+        if (syncCompleted[0] && syncCompleted[1] && syncCompleted[2]) {
+            runBlocking {
+                messageWSC.synchronizing.set(false)
+                eventWSC.synchronizing.set(false)
+            }
+        }
     }
 
     fun syncFriend() {
+        syncStarted()
         log.info("同步好友列表")
+        val startTime = System.currentTimeMillis()
         sendCommand(CommandSender(Command.FriendList)) { data: JsonObject ->
             if (data.get(DATA).isJsonArray) {
                 friends.clear()
                 for (element in data.get(DATA).asJsonArray) {
                     friends.add(Friend(JsonUtil.gson.fromJson(element, FriendData::class.java)))
                 }
+                syncCompleted[1] = true
+                syncCompleted()
+                log.info("同步好友列表完成({})耗时:{}ms", friends.size, System.currentTimeMillis() - startTime)
             }
         }
     }
 
     fun syncGroup() {
+        syncStarted()
         log.info("同步群列表")
+        val startTime = System.currentTimeMillis()
         sendCommand(CommandSender(Command.GroupList)) { data: JsonObject ->
             if (data.get(DATA).isJsonArray) {
                 groups.clear()
                 for (datum in data.get(DATA).asJsonArray) {
                     val groupData = JsonUtil.gson.fromJson(datum, GroupData::class.java)
-                    groups.add(Group(groupData))
+                    groups.add(Group(groupData).syncCompleted {
+                        syncCompleted[0] = true
+                        syncCompleted()
+                    })
                 }
+                log.info("同步群列表完成({})耗时:{}ms", groups.size, System.currentTimeMillis() - startTime)
             }
         }
     }
@@ -132,21 +192,27 @@ class Bot : IJsonData {
         )
     }
 
+    fun getProfileSync(): Profile {
+        //todo 还没做完啊
+        return this.profile!!
+    }
+
     fun getProfileAsync(profile: (Profile?) -> Unit) {
         runBlocking { launch { syncProfile(profile) } }
     }
 
     private fun syncProfile(profile: (Profile?) -> Unit) {
+        syncStarted()
         log.info("同步Bot资料")
-        sendCommand(
-            CommandSender(Command.BotProfile)
-        ) { data: JsonObject? ->
+        val startTime = System.currentTimeMillis()
+        sendCommand(CommandSender(Command.BotProfile)) { data: JsonObject? ->
             this.profile = JsonUtil.gson.fromJson(data, Profile::class.java)
             profile.invoke(this.profile)
+            log.info("同步Bot资料完成,耗时:{}ms", System.currentTimeMillis() - startTime)
         }
     }
 
-    fun sendCommand(sender: CommandSender, consumer: Consumer<JsonObject>?) {
+    fun sendCommand(sender: CommandSender, consumer: ((JsonObject) -> Unit)?) {
         messageWSC.sendMessage(sender, consumer)
     }
 

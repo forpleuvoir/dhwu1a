@@ -7,6 +7,7 @@ import forpleuvoir.dhwu1a.core.common.OPERATOR
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 群成员被禁言事件（该成员不是Bot）
@@ -42,6 +43,15 @@ class MemberMuteEvent private constructor(
     override fun getGroup(): Group {
         return operator.getGroup()
     }
+
+    override fun getMember(): Member {
+        return getGroup().getMember(member.id)!!
+    }
+
+    fun getOperator(): Member {
+        return getGroup().getMember(operator.id)!!
+    }
+
 
     override fun toPlainText(): String {
         return String.format("%s[member:%d,operator:%d,group:%d]", type, member.id, operator.id, operator.group.id)

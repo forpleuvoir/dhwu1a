@@ -22,15 +22,15 @@ class MemberData(
     /**
      * 操作者的群名片
      */
-    @field:SerializedName(MEMBER_NAME) val memberName: String,
+    @field:SerializedName(MEMBER_NAME) var memberName: String,
     /**
      * 群头衔
      */
-    @field:SerializedName(SPECIAL_TITLE) val specialTitle: String,
+    @field:SerializedName(SPECIAL_TITLE) var specialTitle: String,
     /**
      * 操作者在群中的权限，OWNER、ADMINISTRATOR或MEMBER
      */
-    @field:SerializedName(PERMISSION) val permission: Permission,
+    @field:SerializedName(PERMISSION) var permission: Permission,
     /**
      * 入群时间
      */

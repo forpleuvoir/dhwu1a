@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import forpleuvoir.dhwu1a.core.common.MEMBER
 import forpleuvoir.dhwu1a.core.common.data.MemberData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 新人入群的事件
@@ -27,6 +28,14 @@ class MemberJoinEvent private constructor(member: MemberData) : GroupEvent(Group
     val member: MemberData
     override fun getGroup(): Group {
         return member.getGroup()
+    }
+
+    override fun getMember(): Member {
+        return getGroup().getMember(member.id)!!
+    }
+
+    override fun callback() {
+        getGroup().addMember(this)
     }
 
     override fun toPlainText(): String {

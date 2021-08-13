@@ -8,6 +8,7 @@ import forpleuvoir.dhwu1a.core.common.ORIGIN
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.common.data.OperatorData
 import forpleuvoir.dhwu1a.core.user.Group
+import forpleuvoir.dhwu1a.core.user.Member
 
 /**
  * 允许群员邀请好友加群
@@ -39,6 +40,11 @@ class GroupAllowMemberInviteEvent private constructor(
      */
     @SerializedName(GROUP)
     val group: GroupData
+
+    override fun getMember(): Member? {
+        operator?.let { return getGroup().getMember(operator.id) }
+        return null
+    }
 
     /**
      * 操作的管理员或群主信息，当null时为Bot操作
