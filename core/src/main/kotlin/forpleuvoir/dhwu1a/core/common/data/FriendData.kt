@@ -21,7 +21,7 @@ class FriendData(
     /**
      * 好友的昵称
      */
-    @field:SerializedName(NICKNAME) val nickname: String,
+    @field:SerializedName(NICKNAME) var nickname: String,
     /**
      * 好友的备注
      */

@@ -20,7 +20,7 @@ import forpleuvoir.dhwu1a.core.user.Group
  */
 class BotJoinGroupEvent private constructor(group: GroupData) : GroupEvent(GroupEventType.BotJoinGroupEvent) {
     override fun callback() {
-        bot.syncGroup()
+        bot.sync()
     }
 
     /**

@@ -43,7 +43,6 @@ class Group(groupData: GroupData) : User(groupData.id) {
     }
 
     fun syncMember() {
-        bot.syncStarted()
         log.info("({})同步群员列表", data.name)
         val startTime = System.currentTimeMillis()
         bot.sendCommand(CommandSender(Command.MemberList, mapOf(TARGET to id))) { data: JsonObject ->

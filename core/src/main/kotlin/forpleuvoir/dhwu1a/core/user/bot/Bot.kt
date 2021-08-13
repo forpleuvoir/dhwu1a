@@ -8,6 +8,8 @@ import forpleuvoir.dhwu1a.core.common.data.FriendData
 import forpleuvoir.dhwu1a.core.common.data.GroupData
 import forpleuvoir.dhwu1a.core.common.day
 import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig
+import forpleuvoir.dhwu1a.core.event.group.BotLeaveEventActive
+import forpleuvoir.dhwu1a.core.event.group.BotLeaveEventKick
 import forpleuvoir.dhwu1a.core.user.Friend
 import forpleuvoir.dhwu1a.core.user.Group
 import forpleuvoir.dhwu1a.core.user.base.Profile
@@ -117,6 +119,7 @@ class Bot : IJsonData {
     }
 
     fun sync() {
+        syncStarted()
         syncGroup()
         syncFriend()
         syncProfile {
@@ -127,7 +130,7 @@ class Bot : IJsonData {
         }
     }
 
-    fun syncStarted() {
+    private fun syncStarted() {
         messageWSC.synchronizing.set(true)
         eventWSC.synchronizing.set(true)
         for (i in 1..syncCompleted.size) {
@@ -144,8 +147,7 @@ class Bot : IJsonData {
         }
     }
 
-    fun syncFriend() {
-        syncStarted()
+    private fun syncFriend() {
         log.info("同步好友列表")
         val startTime = System.currentTimeMillis()
         sendCommand(CommandSender(Command.FriendList)) { data: JsonObject ->
@@ -161,8 +163,7 @@ class Bot : IJsonData {
         }
     }
 
-    fun syncGroup() {
-        syncStarted()
+    private fun syncGroup() {
         log.info("同步群列表")
         val startTime = System.currentTimeMillis()
         sendCommand(CommandSender(Command.GroupList)) { data: JsonObject ->
@@ -202,7 +203,6 @@ class Bot : IJsonData {
     }
 
     private fun syncProfile(profile: (Profile?) -> Unit) {
-        syncStarted()
         log.info("同步Bot资料")
         val startTime = System.currentTimeMillis()
         sendCommand(CommandSender(Command.BotProfile)) { data: JsonObject? ->
@@ -223,6 +223,12 @@ class Bot : IJsonData {
 
     fun getGroup(id: Long): Group? {
         return groups.stream().filter { group: Group -> group.id == id }.findFirst().orElse(null)
+    }
+
+    fun leaveGroup(eventKick: BotLeaveEventKick?, eventActive: BotLeaveEventActive?): Boolean {
+        eventKick?.let { return groups.removeIf { group -> group.id == eventKick.group.id } }
+        eventActive?.let { return groups.removeIf { group -> group.id == eventActive.group.id } }
+        return false
     }
 
     override fun toJsonString(): String {

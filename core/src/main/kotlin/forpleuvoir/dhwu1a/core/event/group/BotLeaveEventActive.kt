@@ -20,7 +20,7 @@ import forpleuvoir.dhwu1a.core.user.Group
  */
 class BotLeaveEventActive private constructor(group: GroupData) : GroupEvent(GroupEventType.BotLeaveEventActive) {
     override fun callback() {
-        bot.syncGroup()
+        bot.leaveGroup(null, this)
     }
 
     /**

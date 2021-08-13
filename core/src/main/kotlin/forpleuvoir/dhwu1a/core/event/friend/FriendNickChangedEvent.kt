@@ -29,8 +29,9 @@ class FriendNickChangedEvent(
      */
     @field:SerializedName(TO) val to: String
 ) : FriendEvent(FriendEventType.FriendNickChangedEvent, friend) {
+
     override fun callback() {
-        bot.syncFriend()
+        friend?.let { bot.getFriend(friend.id)?.data?.nickname = to }
     }
 
     override fun toPlainText(): String {
