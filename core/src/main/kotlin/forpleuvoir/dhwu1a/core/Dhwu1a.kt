@@ -4,6 +4,7 @@ import forpleuvoir.dhwu1a.core.config.Dhwu1aConfig
 import forpleuvoir.dhwu1a.core.config.LogConfig
 import forpleuvoir.dhwu1a.core.event.base.EventBus
 import forpleuvoir.dhwu1a.core.user.bot.Bot
+import forpleuvoir.dhwu1a.core.util.Dhwu1aLog
 import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
@@ -35,6 +36,8 @@ class Dhwu1a private constructor() {
     private val onClose: MutableCollection<(Dhwu1a) -> Unit> = ConcurrentLinkedDeque()
     private val onRestart: MutableCollection<(Dhwu1a) -> Unit> = ConcurrentLinkedDeque()
 
+    private val log: Dhwu1aLog = Dhwu1aLog(this::class.java)
+
     fun initialize(config: Dhwu1aConfig) {
         Thread.currentThread().name = "dhwu1a"
         LogConfig.instance.copyOf(config.logConfig)
@@ -43,9 +46,21 @@ class Dhwu1a private constructor() {
     }
 
     fun start() {
+        printSystemInfo()
         bot.initialize(config)
         isRunning = true
         onStart()
+    }
+
+    private fun printSystemInfo() {
+        val javaVersion = System.getProperty("java.version")
+        val osName = System.getProperty("os.name")
+        val osVersion = System.getProperty("os.version")
+        val userName = System.getProperty("user.name")
+        log.info("JVM版本:{}", javaVersion)
+        log.info("用户名:{}", userName)
+        log.info("运行系统:{}", osName)
+        log.info("系统版本:{}", osVersion)
     }
 
     private fun onStart() {

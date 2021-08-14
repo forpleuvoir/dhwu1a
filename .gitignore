@@ -7,3 +7,6 @@
 /.idea/workspace.xml
 /log
 /console/out
+/test/
+/console/src/test
+/console/src/test/kotlin/

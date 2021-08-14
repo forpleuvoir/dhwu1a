@@ -91,20 +91,20 @@ fun String.toJsonObject(): JsonObject {
 }
 
 /**
- * 将对象转换成[JsonElement]
+ * 将对象转换成[JsonObject]
  *
- * @return [JsonElement]对象
+ * @return [JsonObject]对象
  */
 fun Any.toJsonObject(): JsonObject {
     return JsonUtil.gson.toJsonTree(this).asJsonObject
 }
 
 /**
- * 将[Collection]转换成[JsonArray]
+ * 将[List]转换成[JsonArray]
  *
  * @return [JsonArray]
  */
-fun Collection<*>.toJsonArray(): JsonArray {
+fun List<*>.toJsonArray(): JsonArray {
     return JsonUtil.gson.toJsonTree(this).asJsonArray
 }
 

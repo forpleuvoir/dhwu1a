@@ -1,21 +1,26 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
+    id 'application'
     id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
 group = project.console_group as Object
 version = project.dhwu1a_version as Object
 
-def mainClassName = "forpleuvoir.dhwu1a.console.Dhwu1aConsoleKt"
+def appClass = "forpleuvoir.dhwu1a.console.Dhwu1aConsoleKt"
 
 shadowJar {
     archiveBaseName.set("dhwu1a-console")
 }
 
+application {
+    mainClassName(appClass)
+}
+
 jar {
     manifest {
-        attributes 'Main-Class': mainClassName
+        attributes 'Main-Class': appClass
     }
 
 }
